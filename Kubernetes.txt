@@ -1,0 +1,312 @@
+Management kontainer, load balancing ,scale up, monitoring container, replace container 
+
+Kubernetes.io 
+
+POD unit terkecil di kubernetes, di dlm POD ada n container, shared volume, shared IP address. Umumnya 1 POD satu container. Masing2 container dlm POD berbagi shared IP dan shared volume. 
+
+1 POD 1 Server 
+
+Kubernetes cluster : node-node(fisik atau VM), di dalam node ada n POD. Node ada 2 : master node dan worker node 
+
+Master node : kubelet, kube proxy, container runtime(docker),API Server(utk komunikasi antar node dan control panel cluster),scheduler(planning and distribution),Kube Controller Manager(control event2 di node2 di cluster), Cloud controller manager(control interaksi dgn cloud provider), etcd(menyimpan log2), DNS 
+
+Worker node : kubelet, kube proxy(komunikasi inside/between node), container runtime 
+
+Handle API Server di master node menggunakan kubectl(CLI) bisa secara remote atau REST API(web based) 
+
+System : cloud atau bisa juga minikube(create single node), minikube butuh VM atau docker(default), minikube ada yg termasuk kubectl ada yg terpisah, 
+
+Install kubectl(di luar kubernetes cluster) dan minikube 
+
+minikube status
+minikube start --driver=virtualbox/docker --no-vtx-check
+minikube IP
+ssh docker@IP, user:docker , password : tcuser --> masuk ke node 
+minikibe stop
+minikube delete 
+
+Perintah2 stlh masuk ke node :
+docker ps 
+
+kubectl cluster-info
+kubectl get nodes
+kubectl get pod
+kubectl get namespaces
+kubectl get pods --namespaces=xxx
+
+
+kubectl run nginx --image=xxx -> run docker image
+kubectl describe pod xxx -> cek info dan ip dari pod yg running
+kubectl delete pod 
+
+kubectl create deployment xxx --image=xxx
+kubectl get deployment
+kubectl scale deployment nginx-deployment --replicas=5
+kubectl expose deployment nginx-deployment --port=8080 --target-port=80 
+
+kubectl create service nodeport nginx --tcp=80:80
+kubectl get services
+kubectl get pods -o wide (melihat ip masing2 pods unique , setelah replica)
+kubectl describe service
+kubectl delete deployment
+kubectl delete service
+kubectl delete all
+kubectl get all 
+
+kubectl exec -it nginx -c nginx -- sh 
+
+Create deployment -> create pods juga
+kubectl expose deployment xxx --type=NodePort --port=3000 -> supaya bisa diakses lewat web di minikube ip, dgn input minikibeip:NodePort 
+
+Minikube service xxx 
+
+kubectl expose deployment k8s-web-hello --type: LoadBalancer --port=3000 
+
+kubectl set image deployment xxx namaimage //ganti image di replica 
+
+kubectl rollout status deploy xxx //ganti image di replica 
+
+Minikube dashboard -> nnt keluar IP utk akses dashboard via web 
+
+kubectl apply -f xxx.yaml(service and deployment) -> jalankan compose docker image, utk deployment bisa di set di file docker .yaml tsb.  kind:deployment, kind:service, metadata: , spec : replica: port: targetport: type:LoadBalancer 
+
+kubectl delete -f xxx.yaml 
+
+kubectl exec xxx --nslookup nginx 
+
+docker exec -it idcontainer -> konek ke container di dlm pod yg sudah dibuat
+hostname -i (ip address) 
+
+minikube start --driver=virtualbox --container-runtime=cri-o
+crictl ps
+
+
+Kubernetes Multimodes 
+
+Master mode :
+Install docker 
+apt-get install apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+Vi /etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+apt-get update
+apt-get install kubelet kubeadm kubectl
+systemctl start kubelet.service
+kubeadm init --pod-network-cidr=192.168.182.0/8 --control-plane-endpoint=master.local
+export KUBECONFIG=/etc/kubernetes/admin.conf atau export MASTER_IP=xxx
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml 
+
+kubectl get nodes 
+
+kubectl label node worker2 node-role.kubernetes.io/worker=worker
+kubectl label nodes node-name label=app 
+
+kubectl get nodes -o wide 
+
+kubectl get pods -n kube-system
+cd /etc/kubernetes/manifests/ -> file2 yaml dan etcd 
+
+kubectl cluster-info 
+
+Etc/kubernetes 
+
+Worker node :
+Sama di master node di atas sampe sblm kubeadm init
+kubeadm join 192.168.182.129:6443 --token xxx --discovery-token-ca-cert-hash sha256:xxx (token keluar di master node stlh kubeadm init berhasil) 
+
+Assign pods to worker node :
+Set di file .yaml tambah di spec: -> nodeSelector: name: xxx(nama node) 
+
+Perintah2 :
+kubectl create -f .yml
+kubectl apply -f .yml
+kubectl get deployment
+kubectl get pods -o wide
+kubectl get nodes -o wide
+kubectl get service
+kubectl exec -it xxx -- sh
+kubectl exec -it xxx -c xxx -- sh
+kubectl get nodes --show-labels 
+
+kubectl label nodes xxx type=xxx
+kubectl label nodes xxx type- (remove label) 
+
+kubectl describe pods/svc/deployment 
+
+kubectl expose pod/deployment xxx --type=NodePort 
+
+kubectl scale deployment my-nginx --replicas=2 
+
+kubectl run nginx --image=
+kubectl create deployment xxx --image=
+kubec create service nodeport xxx --tcp=80:80 
+
+kubectl get ep xxx
+kubectl rollout restart deployment xxx 
+
+DNS
+kubectl get services kube-dns --namespace=kube-system 
+
+kubeadm reset (ubah config sblm kubeadm init/join, kl di master trus delete $HOME/.kube/config, trus ketik cp -i /etc/kubernetes/admin.conf $HOME/.kube/config, trus chown $(id -u):$(id -g) $HOME/.kube/config, trus reinstall calico network) 
+
+Settingan 1 container: 
+File nginx-deploy.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: nginx-deploy
+   labels:
+      type: web-app
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         type: web-app
+   template:
+      metadata:
+         labels:
+            type: web-app
+      spec:
+         containers:
+         - name: nginx-app
+           image: tennynashari/nginx-app 
+
+File nginx-service.yml
+apiVersion: v1
+kind: Service
+metadata:
+   name: nginx
+   labels:
+      type: web-app
+spec:
+   externalTrafficPolicy: Local
+   ports:
+   - name: http
+     port: 80
+     protocol: TCP
+     targetPort: 80
+   selector:
+      type: web-app
+   type: NodePort 
+
+Settingan 2 container
+pv-volume.yml :
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: task-pv-volume
+   labels:
+       type: local
+spec:
+   storageClassName: manual
+   capacity:
+      storage: 10Gi
+   accessModes:
+      - ReadWriteOnce
+   hostPath:
+      path: "/mnt/data" 
+
+pv-claim.yml : 
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+   name: task-pv-claim
+spec:
+   storageClassName: manual
+   accessModes:
+      - ReadWriteOnce
+   resources:
+      requests:
+         storage: 3Gi
+
+
+Web-app.yml :
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  labels:
+    app: web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+        - name: nginx
+          image: tennynashari/nginx-app
+          volumeMounts:
+            - name: contents
+              mountPath: /code
+              subPath: html
+            - name: contents
+              mountPath: /etc/nginx/conf.d
+              subPath: site
+        - name: php
+          image: tennynashari/php-app
+          volumeMounts:
+            - name: contents
+              mountPath: /code
+              subPath: html
+      nodeSelector:
+        type: web-app
+      volumes:
+        - name: contents
+          persistentVolumeClaim:
+            claimName: task-pv-claim 
+
+Web-service.yml
+nginx-service.yml : 
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+    layer: frontend 
+
+spec: 
+
+  type: NodePort
+  selector: 
+
+    app: web-app 
+
+  ports: 
+
+    - nodePort: 30000
+      port: 80
+      targetPort: 80 
+
+Config map :
+configmap :
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-config
+data:
+  config : |
+      server {
+        listen 80 default_server;
+        listen [::]:80 default_server; 
+
+        # Set nginx to serve files from the shared volume!
+        root /code;
+        server_name _;
+        location / {
+          try_files $uri $uri/ =404;
+        }
+        location ~ \.php$ {
+          include fastcgi_params;
+          fastcgi_param REQUEST_METHOD $request_method;
+          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+          fastcgi_pass 127.0.0.1:9000;
+        }
+      }

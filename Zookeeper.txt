@@ -1,0 +1,107 @@
+Install zookeeper :
+Download zookeeper-3.5.6
+Extract to /[zk-dir]/
+Create directory /[zk-data]/
+Go to /[zk-dir]/zookeeper-3.5.6
+copy file /conf/zoo_sample.cfg to /conf/zoo.cfg
+Edit file zoo.cfg :
+dataDir =/[zk-data]/
+clientport=2181
+initLimit=10
+autopurge.snapRetainCount=4
+autopurge.purgeInterval=24
+Go to /[zk-dir]/zookeeper-3.5.6/bin lalu sh zkServer.sh start 
+
+Cara lain install zookeeper :
+Install JAVA 
+edit file /home/.bashrc :
+export JAVA_HOME=/usr/jvm/java-7-oracle/
+. .bashrc 
+
+Solr connect to zookeeper server :
+sh solr.sh start -e cloud -z IPZOOKEEPER:2181 -noprompt atau
+sh solr.sh start -e cloud -z IPZOOKEEPER:2181 -> set solr configuration in zookeeper
+Lalu sh solr.sh create -c namecollection -n nameconfig -shards 2 -replicationFactor 2 -> set collection
+
+Centralized system maintaining information and configuration 
+
+Znode beriai versi2 data tersimpan di server zookeeper, dapat lebih dari 1 server zookeeper, client terhubung ke server zookeeper. 
+
+Install di Centos
+yum clean all
+yum -y update 
+
+cd /opt/
+wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u45-b14/jdk-8u45-linux-x64.tar.gz"
+tar xzf jdk-8u45-linux-x64.tar.gz
+Install Java
+cd /opt/jdk1.8.0_45/
+alternatives --install /usr/bin/java /opt/jdk1.8.0_45/bin/java 2
+alternatives --config java 
+
+alternatives --install /usr/bin/jar jar /opt/jdk1.8.0_45/bin/jar 2
+alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_45/bin/javac 2
+alternatives --set jar /opt/jdk1.8.0_45/bin/jar
+alternatives --set javac /opt/jdk1.8.0_45/bin/javac 
+
+java -version 
+
+export JAVA_HOME=/opt/jdk1.8.0_45
+export JRE_HOME=/opt/jdk1.8.0_45/jre
+export PATH=$PATH:/opt/jdk1.8.0_45/bin:/opt/jdk1.8.0_45/jre/bin
+Install Java 2
+yum install java-1.8.0-openjdk 
+
+Install Zookeeper
+wget http://mirrors.ukfast.co.uk/sites/ftp.apache.org/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz 
+
+mv zookeeper-3.4.10.tar.gz /opt
+cd /opt
+tar xzf zookeeper-3.4.10.tar.gz
+ln -s zookeeper-3.4.10 ./zookeeper
+cd zookeeper 
+
+mkdir data
+groupadd zookeeper
+useradd -g zookeeper -d /opt/zookeeper -s /sbin/nologin zookeeper
+chown -R zookeeper:zookeeper /opt/zookeeper/* 
+
+vi /opt/zookeeper/conf/zoo.cfg
+tickTime=2000
+initLimit=10
+syncLimit=5
+dataDir=/opt/zookeeper/data
+clientPort=2181
+server.1=192.168.187.75:2888:3888
+server.2=192.168.187.77:2888:3888
+server.3=192.168.187.78:2888:3888 
+
+/opt/zookeeper/bin/zkServer.sh start
+/opt/zookeeper/bin/zkCli.sh 
+
+Buat systemctl
+vi /usr/lib/systemd/system/zookeeper.service 
+
+[Unit]
+Description=Zookeeper Service 
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zookeeper/
+PIDFile=/opt/zookeeper/data/zookeeper_server.pid
+SyslogIdentifier=zookeeper
+User=zookeeper
+Group=zookeeper
+ExecStart=/opt/zookeeper/bin/zkServer.sh start
+ExecStop=/opt/zookeeper/bin/zkServer.sh stop
+Restart=always
+TimeoutSec=20
+SuccessExitStatus=130 143
+Restart=on-failure 
+
+[Install]
+WantedBy=multi-user.target 
+
+systemctl daemon-reload
+systemctl enable zookeeper.service
+systemctl start zookeeper.service

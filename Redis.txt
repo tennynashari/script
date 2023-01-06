@@ -1,0 +1,60 @@
+Download di redis.io
+Ubuntu : apt-get install redis-server, apt-get install redis
+Etc/redis/redis.conf
+Port 6379
+redis-cli, redis-server 
+
+SET foo 100
+GET foo
+INCR foo
+DECR foo
+EXISTS foo
+DEL foo
+FLUSHALL
+EXPIRE foo 50
+TTL foo 
+
+SET foo "hello world"
+GET foo 
+
+SET server:name "someserver"
+SET server:port 8000
+SETEX greeting 130 "hello world"
+TTL greeting
+PERSIST greeting -> hapus expire 
+
+MSET key1 "hello" key2 "world"
+APPEND key1 " world"
+RENAME key1 greeting 
+
+KEYS * 
+
+LPUSH people "aaa"
+LPUSH people "bbb"
+LPUSH people "ccc"
+LRANGE people 0 -1
+LRANGE people 1 2
+RPUSH people "ddd"
+LLEN people
+LPOP people
+
+
+SADD member "aaa bbb"
+SMEMBERS member
+SREM members "aaa" 
+
+HSET person name kyle
+HSET person age 26
+HGETALL person
+HGET person name
+HDEL person age
+HEXISTS person name 
+
+Redis and Node js
+npm install redis
+Const Redis = require('redis')
+Const redisclient = Redis.createclient()
+redisclient.setex("photos", EXPIRATION, json.stringify(data))
+redisclient.get("photos", (error,photos)=>{
+    return res.json(json.parse(data))
+})

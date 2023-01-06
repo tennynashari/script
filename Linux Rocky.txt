@@ -1,0 +1,200 @@
+Install PHP
+Dnf module list php
+Dnf module -y reset php
+Dnf module -y enable php:7.4
+Dnf module -y install php:7.4/common 
+
+Dnf install
+Dnf remove
+Dnf list all
+Dnf list installed
+Dnf repolist 
+
+rpm -qi xxx -> lihat versi
+adduser xxx
+passwd xxx 
+
+whoami, pwd 
+
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm 
+
+dnf install https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm 
+
+dnf install dnf-utils http://rpms.remirepo.net/enterprise/remi-release-9.rpm -y 
+
+dnf install php php-fpm php-gd php-mysqlnd php-common php-ldap 
+
+Php-fpm : /etc/php-fpm.d/www.conf, isi listen = /run/php-fpm/www.sock
+Systemctl start php-fpm 
+
+/bin/sh -c => command line 
+
+Install zabbix 
+
+Mariadb 10.5, php 7.4, zabbix 6.0
+Rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/8/x86_64/zabbix-release-5.0-1.el8.noarch.rpm 
+
+dnf install -y zabbix-server zabbix-agent zabbix-server-mysql zabbix-web-mysql zabbix-nginx-conf zabbix-sql-scripts 
+
+set php -> vi etc/php-fpm.d/zabbix.conf, ganti apache dgn nginx, dan set datetime 
+
+Set mysql -> create database zabbix character set utf8 collate utf8_bin; grant all privileges on zabbix.* to zabbix@localhost identified by ''; flush privileges; 
+
+Cd /usr/share/doc/zabbix-server-mysql
+zcat create.sql.gz | mysql -u zabbix -p zabbix
+Set db -> etc/zabbix/zabbix_server.conf 
+
+Set selinux -> setenforce 0, sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config 
+
+systemctl restart zabbix-server 
+
+Root usr/share/zabbix 
+
+Install solr 
+
+https://www.atlantic.net/dedicated-server-hosting/how-to-install-apache-solr-on-rocky-linux-8/ 
+
+Install docker
+dnf install yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+dnf install docker-ce docker-ce-cli containerd.io docker-compose-plugin 
+
+Install kubernetes
+Set /etc/hosts
+dnf -y update
+firewall-cmd --add-port=6443/tcp --permanent -> port 2379-2380,10250,10251,10252,10255 
+
+setenforce 0
+sed -i 's/^SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config 
+
+modprobe overlay
+modprobe br_netfilter 
+
+tee /etc/sysctl.d/kubernetes.conf<<EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+EOF 
+
+sysctl --system 
+
+sed -i  '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+swapoff -a 
+
+tee /etc/yum.repos.d/kubernetes.repo<<EOF
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key gpg
+EOF 
+
+dnf install -y epel-release vim git curl wget kubelet kubeadm kubectl 
+
+kubectl version --client
+
+
+tee /etc/modules-load.d/containerd.conf <<EOF
+overlay
+br_netfilter
+EOF 
+
+modprobe overlay
+modprobe br_netfilter 
+
+tee /etc/sysctl.d/kubernetes.conf<<EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nfcall-iptables = 1
+net.ipv4.ip_forward = 1
+EOF 
+
+sysctl --system 
+
+yum install -y yum-utils device-mapper-persistent-data lvm2
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo 
+
+yum update -y
+yum install -y containerd.io 
+
+mkdir -p /etc/containerd
+containerd config default > /etc/containerd/config.toml 
+
+systemctl start/enable containerd 
+
+lsmod | grep br_netfilter 
+
+systemctl start/enable kubelet 
+
+kubeadm config images pull 
+
+kubeadm init --pod-network-cidr=10.10.0.0/16 --control-plane-endpoint=master.local 
+
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config 
+
+kubectl cluster-info 
+
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml 
+
+kubectl get pods --all-namespaces 
+
+Install Solr
+dnf update -y
+dnf install java-11-openjdk -y
+java --version
+dnf install epel-release
+wget https://downloads.apache.org/lucene/solr/8.11.0/solr-8.11.0.tgz
+wget https://downloads.apache.org/lucene/solr/8.10.0/solr-8.10.0-src.tgz.sha512
+gpg --print-md SHA512 solr-8.10.0-src.tgz.sha512
+cat 8.10.0-src.tgz.sha512 
+
+tar xzf solr-8.10.0.tgz
+cd 
+solr-8.10.0/bin/install_solr_service.sh solr-8.10.0.tgz 
+
+ss -altnp | grep 8983 
+
+firewall-cmd --add-port=8983/tcp --permanent
+firewall-cmd --reload 
+
+Create test collection solr -> su - solr -c "/opt/solr/bin/solr create -c testcollection -n data_driven_schema_configs" 
+
+http://ipserver:8983
+Harus ada apache 
+
+Install VSFTPD
+dnf install vsftpd
+rpm -qi vsftpd -> lihat versi
+etc/vsftpd/vsftpd.conf
+etc/vsftpd/user_list
+
+
+
+
+
+
+Openssl
+To generate ssl certificate
+dnf install openssl
+1. openssl genrsa -des3 -out ourownwiki.com.key.pass 2048
+2. openssl rsa -in ourownwiki.com.key.pass -out ourownwiki.com.key
+3. openssl req -new -key ourownwiki.com.key -out ourownwiki.com.csr
+4. more ourownwiki.com.csr
+     File csr dicopy dikirim buat purchase sertifikat ssl
+5. Setelah purchase dapat 3 file crt dr email, satukan jadi satu :
+cat your_domain.crt intermediate.crt root.crt >> ssl-bundle.crt
+
+
+
+6. Set nginx :
+server {
+listen 443; 
+ssl on; 
+ssl_certificate /etc/ssl/ssl-bundle.crt; ssl_certificate_key /path/to your_private.key;
+root /path/to/webroot; 
+server_name your_domain.com; } 
+
+Get ssl : lets encrypt, autossl, comodo

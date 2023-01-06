@@ -37,7 +37,7 @@ filter_val($email, $pattern); -> pattern :  FILTER_VALIDATE_EMAIL,FILTER_SANITI
 preg_split("/  /", $string) -> memisahkan string ke array 
 
 $temp = array( );
-Mysqli(hoat,db,name,password);
+Mysqli(host,db,name,password);
 $result = mysqli->query( ,$sql);
 mysqli->numrows($result);
 While ($row == mysqli->fetch_assoc($result)) 

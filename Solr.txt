@@ -1,0 +1,319 @@
+Install di Rocky 
+
+dnf update -y
+dnf install java-11-openjdk -y
+java --version
+dnf install epel-release
+wget https://downloads.apache.org/lucene/solr/8.11.0/solr-8.11.0.tgz
+wget https://downloads.apache.org/lucene/solr/8.10.0/solr-8.10.0-src.tgz.sha512
+gpg --print-md SHA512 solr-8.10.0-src.tgz.sha512
+cat 8.10.0-src.tgz.sha512 
+
+tar xzf solr-8.10.0.tgz
+cd 
+solr-8.10.0/bin/install_solr_service.sh solr-8.10.0.tgz 
+
+ss -altnp | grep 8983 
+
+firewall-cmd --add-port=8983/tcp --permanent
+firewall-cmd --reload 
+
+Create test collection solr -> su - solr -c "/opt/solr/bin/solr create -c testcollection -n data_driven_schema_configs" 
+
+http://ipserver:8983
+Harus ada apache 
+
+solr stop -all
+solr start
+Di web : Core admin, dataimport, document, query, schema 
+
+Install solr d windows
+download solr : apache.org/dyn/closer.lua/lucene/solr/8.0.0/solr-8.0.0-src.tgz, kemudian extract rar yg didownload
+Masuk ke folder bin, klik kanan->powershell
+.\solr start
+.\solr create_core -c xxx
+klik core xxx, ke document/dataimport
+kl ke document pilih document type:file upload lalu upload file.csv
+kl document .xml , buat schema terlebih dahulu di web->core->schema, lalu file .xml nya ditaro di directory solr 
+
+Index mysql
+Mysql connector : mysql connector : https://dev.mysql.com/downloads/connector/j/ 
+
+Copy file from the downloaded archive 'mysql-connector-java-*.jar' to the folder 'contrib/dataimporthandler/lib' in the folder where Solr was installed. 
+create a new folder for a new collection - 'myproducts'. The collection will be located in '/solr/myproducts' folder. Create folders conf and data in the collection folder: 
+
+/solr/myproducts/conf
+/solr/myproducts/data 
+
+copy solrconfig.xml from an existing collection. 
+
+edit solrconfig.xml by adding: 
+
+<lib dir="../../contrib/dataimporthandler/lib" regex=".*\.jar" />
+<lib dir="../../dist/" regex="solr-dataimporthandler-.*\.jar" />
+Make sure that 'dist' folder contains two files for data import handler(sudah ada di folder dist) :
+solr-dataimporthandler-4.10.2.jar
+solr-dataimporthandler-extras-4.10.2.jar 
+
+add these lines to solrconfig.xml: 
+
+<requestHandler name="/dataimport" class="org.apache.solr.handler.dataimport.DataImportHandler">
+    <lst name="defaults">
+    <str name="config">data-config.xml</str>
+    </lst>
+</requestHandler> 
+
+data-config.xml : 
+
+# define data source
+<dataConfig>
+<dataSource type="JdbcDataSource" 
+            driver="com.mysql.jdbc.Driver"
+            url="jdbc:mysql://localhost:3306/mydb1" 
+            user="root" 
+            password=""/>
+<document>
+  <entity name="product"  
+    pk="id"
+    query="select id,name from products"
+    deltaImportQuery="SELECT id,name from products WHERE id='${dih.delta.id}'"
+    deltaQuery="SELECT id FROM products  WHERE updated_at > '${dih.last_index_time}'"
+    >
+     <field column="id" name="id"/>
+     <field column="name" name="name"/>       
+  </entity>
+</document>
+</dataConfig> 
+
+edit file 'schema.xml' accordingly to fields defined in data-import.xml: 
+
+<schema name="example" version="1.5">
+    <field name="version" type="long" indexed="true" stored="true"/>
+    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
+    <field name="name" type="text_general" indexed="true" stored="true"/> 
+
+use admin interface in your browser to add a new collection. Add core: 
+
+name: myproducts
+instanceDir: myproducts 
+
+After successfully adding a collection to Solr you can select it and run dataimport commands: 
+
+full-import - use URL: http://localhost:8983/solr/myproducts/dataimport?command=full-import
+delta-import - use URL: http://localhost:8983/solr/myproducts/dataimport?command=delta-import 
+
+Konek dgn php
+1. Pakai file_web_content(url dari query di solr)
+2. Pakai solarium
+git clone https://github.com/solariumphp/solarium.git
+cd solarium
+composer install 
+
+cd examples
+php -S localhost:8888
+http://localhost:8888/examples -> web server built in php
+
+
+
+
+3. Pakai solarium
+Di folder directory buat composer.json dgn isi :
+{
+  "require": {
+    "solarium/solarium": "3.1.0"
+  }
+} 
+
+Lalu composer install 
+
+Buat config.php:
+<?php 
+
+$config = array(
+    'endpoint' => array(
+        'localhost' => array(
+            'scheme' => 'http', # or https
+            'host' => '127.0.0.1',
+            'port' => 8983,
+            'path' => '/',
+            // 'context' => 'solr', # only necessary to set if not the default 'solr'
+            'core' => 'techproducts',
+        )
+    )
+); 
+
+Buat init.php
+init.php : 
+
+<?php 
+
+use Solarium\Core\Client\Adapter\Curl;
+use Symfony\Component\EventDispatcher\EventDispatcher; 
+
+error_reporting(E_ALL);
+ini_set('display_errors', true); 
+
+if (file_exists('config.php')) {
+    require('config.php');
+} 
+
+require $config['autoload'] ?? _DIR_.'/../vendor/autoload.php'; 
+
+$adapter = new Curl();
+$eventDispatcher = new EventDispatcher(); 
+
+function htmlHeader()
+{
+    echo '<html><head><title>Solarium examples</title></head><body><nav><a href="index.html">Back to Overview</a></nav><br><article>';
+} 
+
+function htmlFooter()
+{
+    echo '</article><br><nav><a href="index.html">Back to Overview</a></nav></body></html>';
+} 
+
+File php utk search query:
+<?php 
+
+require_once(_DIR_.'/init.php'); 
+
+htmlHeader(); 
+
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config); 
+
+// get a select query instance
+$query = $client->createSelect(); 
+
+// set a query (all prices starting from 12)
+$query->setQuery('price:[12 TO *]'); 
+
+// set start and rows param (comparable to SQL limit) using fluent interface
+$query->setStart(2)->setRows(20); 
+
+// set fields to fetch (this overrides the default setting 'all fields')
+$query->setFields(array('id','name','price', 'score')); 
+
+// sort the results by price ascending
+$query->addSort('price', $query::SORT_ASC); 
+
+// this executes the query and returns the result
+$resultset = $client->select($query); 
+
+// display the total number of documents found by Solr
+echo 'NumFound: '.$resultset->getNumFound(); 
+
+// display the max score
+echo '<br>MaxScore: '.$resultset->getMaxScore(); 
+
+// show documents using the resultset iterator
+foreach ($resultset as $document) { 
+
+    echo '<hr/><table>'; 
+
+    // the documents are also iterable, to get all fields
+    foreach ($document as $field => $value) {
+        // this converts multivalue fields to a comma-separated string
+        if (is_array($value)) {
+            $value = implode(', ', $value);
+        } 
+
+        echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
+    } 
+
+    echo '</table>';
+} 
+
+htmlFooter(); 
+
+add data :
+<?php 
+
+require_once(_DIR_.'/init.php');
+htmlHeader(); 
+
+// create a client instance
+$client = new Solarium\Client($adapter, $eventDispatcher, $config); 
+
+// get an update query instance
+$update = $client->createUpdate(); 
+
+// create a new document for the data
+$doc1 = $update->createDocument();
+$doc1->id = 123;
+$doc1->name = 'testdoc-1';
+$doc1->price = 364; 
+
+// and a second one
+$doc2 = $update->createDocument();
+$doc2->id = 124;
+$doc2->name = 'testdoc-2';
+$doc2->price = 340; 
+
+// add the documents and a commit command to the update query
+$update->addDocuments(array($doc1, $doc2));
+$update->addCommit(); 
+
+// this executes the query and returns the result
+$result = $client->update($update); 
+
+echo '<b>Update query executed</b><br/>';
+echo 'Query status: ' . $result->getStatus(). '<br/>';
+echo 'Query time: ' . $result->getQueryTime(); 
+
+htmlFooter(); 
+
+Document xml :
+<add>
+  <doc>
+      <fiels name=" ">xxx</field>
+   <\doc>
+<\add>
+<delete>
+   <id>555<\>
+   <query>subject:sport</query>
+<\delete>
+
+
+Upload document xml :
+1. curl http://localbost:8983/mycollection/update -H "Content-Type: text/xml" --data-binary @text.xml
+2. $ch = curl_init("http://127.0.0.1:8983/solr/collection1/update?wt=json"); 
+
+$data = array(
+    "add" => array( 
+        "doc" => array(
+            "id"   => "HW2212",
+            "title" => "Hello World 2"
+        ),
+        "commitWithin" => 1000,
+    ),
+);
+$data_string = json_encode($data); 
+
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($ch, CURLOPT_POST, TRUE);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string); 
+
+$response = curl_exec($ch);
+3. <?php 
+
+$url = 'http://localhost:8080/solr/update/?commit=true';
+$file = realpath('/home/fabio/target_file.xml'); 
+
+$header = array(
+    "Content-Type: text/xml",
+); 
+
+$post = file_get_contents($file); 
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($ch, CURLOPT_POST, TRUE);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+curl_setopt($ch, CURLOPT_VERBOSE, TRUE); 
+
+echo curl_exec($ch);
+curl_close($ch);
