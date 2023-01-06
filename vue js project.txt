@@ -1,0 +1,333 @@
+Restaurant Project 
+
+download nodejs, node -v, npm -v
+npm install -g @vue/cli
+vue create projectname , choose vue 3
+npm run serve, npm install
+
+npm install vue-router@4
+
+
+file2 penting : App.vue, main.js, folder src(assets,components), folder public(index.html), package.json(project name, version, scripts, dependencies), package-lock.json(more information about package), babel.config.js(related with browser), folder node_modules(all packages)
+
+App.vue : template, script(import component,export,component, method,variable), style(css)
+
+Component : SignUp.vue, Home.vue
+
+important script :
+
+main.js :
+import { createApp } from "vue;
+import App from "./App.vue";
+import router from "./router";
+ceateApp(App).use(router).mount("#app");
+
+App.vue :
+<template> <router-view /> </template>
+
+<SignUp /> -> manggil component, tampilin di template app.vue
+Signup.vue :
+<template>
+  <div class="register">
+     <input type="text" v-model="name" placeholder="Enter Name:" />
+     <button v-on:click="SignUp">Sign Up</button>
+     <p> <router-link to="/login"> Login </router-link> </p>
+  </div>
+</template>
+<script>
+import axios from 'axios'
+export default {
+   name : 'SignUp',
+   data(){
+     return {
+       name: '',
+     }
+   },
+   methods: {
+      async signUp(){
+        let result = await axios.post("http://localhost:3000/users", {
+                     name:this.email, });
+        if(result.status==201){
+           localStorage.setItem("user-info", JSON.stringify(result.data));
+           this.$router.push({name:'Home'});
+        }
+      }
+   }
+}
+</script>
+
+Home.vue:
+<template>
+  <Header />
+  <h1> Hello {{name}}, Welcome on Home Page</h1>
+  <table border="1">
+    <tr>
+      <td>Id</td>
+      <td>Name</td>
+      <td>Contact</td>
+      <td>Address</td>
+    </tr>
+    <tr v-for="item in restaurant" :key="item.id>
+      <td>{{item.id}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.contact}}</td>
+      <td>{{item.address}}</td>
+      <td><router-link :to="'/update/'+item.id">Update</router-link></td>
+      <button v-on:click="deleteRestaurant(item.id)">Delete</button>
+    </tr>
+  </table>
+</template>
+<script>
+import Header from './Header.vue'
+export default {
+   name : 'Home',
+   data(){
+      return {
+         name:'',
+         restaurant:[];
+      }
+   },
+   components:{
+     Header
+   },
+   methods:{
+     async deleteRestaurant(id){
+       let result = await axios.delete("http://localhost:3000/restaurant/"+id);
+       console.warn(result)
+       if(result.status==200){
+          this.lodaData()
+       }
+     },
+     async loadData(){
+       let user = localStorage.getItem('user-info');
+       this.name = JSON.parse(user).name;
+       if(!user){
+         this.$router.push({name:'SignUp'})
+       }
+       let result = await axios.get("http://localhost:3000/restaurant");
+       this.restaurant=result.data;
+     }
+   },
+   async mounted() {
+     this.loadData();
+   }
+}
+</script>
+
+login.vue :
+<template>
+  <h1>Login</h1>
+  <div class="login">
+     <input type="text" v-model="email" placeholder="Enter Email />
+     <input type="password" v-model="password" placeholder="Enter Password />
+     <button v-on:click="login">Login</button>
+     <p><router-link to="/sign-up">Sign Up</router-link> </p>
+  </div>
+</template>
+<script>
+import axios from 'axios'
+export default {
+  name: "Login",
+  data(){
+    return{
+      email: '',
+      password: ''
+    }
+  }
+ methods:{
+   async login(){
+     let result = await axios.get('http://localhost:3000/users?email=${this.email}&password=${this.password}')
+     //result.data and result.status
+     if(result.status==200 && result.data.length>0){
+       localStorage.setItem("user-info",JSON.stringify(result.data[0]))
+       this.$router.push({name:'Home'})
+     }
+
+   }
+ },
+ mounted(){
+   let user= localStorage.getItem('user-info');
+   if(user){
+     this.$router.push({name:'Home'})
+   }
+ }
+}
+</script>
+
+Header.vue :
+<template>
+  <div class="nav">
+     <router-link to="/">Home</a>
+     <router-link to="/add">Add Restaurant</a>
+     <router-link to="/update">Update Restaurant</a>
+     <a v-on:click="logout" href="#">Logout</a>
+  </div>
+</template>
+<script>
+  export default { 
+     name:'Header',
+     methods: {
+       localStorage.clear();
+       this.$router.push({ name:'Login' })
+     }
+  }
+</script>
+
+Add.vue:
+login.vue :
+<template>
+  <Header />
+  <h1>Hello user, Welcome on Add Restaurant Page</h1>
+  <Form class="add">
+     <input type="text" v-model="restaurant.name" placeholder="Enter Email />
+     <input type="text" v-model="restaurant.address" placeholder="Enter Address />
+     <input type="text" v-model="restaurant.contact" placeholder="Enter Contact />
+     <button v-on:click="addRestaurant">Add New Restaurant</button>
+  </Form>
+</template>
+<script>
+import axios from 'axios'
+export default {
+  name: "Add",
+  components:{
+    Header
+  },
+  data(){
+    return{
+      restaurant: {
+        name:'',
+        address:'',
+        contact:''
+      } 
+    }
+  }
+ methods:{
+   addRestaurant(){
+     console.warn(this.restaurant)
+     const result = await axios.post("http://localhost:3000/restaurant",{
+        name:this.restaurant.name,
+        address:this.restaurant.address,
+        contact:this.restaurant.contact,
+     });
+     if(result.status==201){
+       this.$router.push({name:'Home'})
+     }
+     console.warn("result",result)
+   }
+ },
+ mounted(){
+   let user= localStorage.getItem('user-info');
+   if(user){
+     this.$router.push({name:'Home'})
+   }
+ }
+}
+</script>
+
+update.vue :
+<template>
+  <Header />
+  <h1> Hello {{name}}, Welcome on Update Restaurant Page</h1>
+ <form class="add">
+   <input type="text" name="name" placeholder="Enter Name" v-model="restaurant.name" />
+   <input type="text" name="address" placeholder="Enter Address" v-model="restaurant.address" />
+   <input type="text" name="name" placeholder="Enter Contact" v-model="restaurant.contact" />
+   <button type="button" v-on:click="updateRestaurant">Update Restaurant</button>
+ </form>
+</template>
+<script>
+import Header from './Header.vue'
+export default {
+   name : 'Home',
+   data(){
+      return {
+         restaurant:{
+           name:'',
+           address:'',
+           contact:''
+         }
+      }
+   },
+   methods:{
+     async updateRestaurant(){
+       console.warn(this.restaurant)
+       const result = await axios.put("http://localhost:3000/restaurant/"+this.$route.param.id,{
+          name:this.restaurant.name,
+          address:this.restaurant.address,
+          contact:this.restaurant.contact,
+       });
+       if(result.status==200){
+         this.$router.push({name:'Home'});
+       }
+     }
+   },
+   components:{
+     Header
+   },
+   async mounted() {
+      let user=localStorage.getItem('user-info');
+      if(!user) { this.$router.push({name:'SignUp'}) }
+   }
+   let result = await axios.get("http://localhost:3000/restaurant/"+this.$route.params.id);
+   console.warn(result);
+   this.restaurant=result.data;
+}
+</script>
+
+install json server:
+npm install -g json-server
+buat file db.json dgn is :
+{ "user" : [ {"name" : "tenny", "email" : "t.nahsari@gmail.com"} ],
+  "restaurant" : [{"id":1,"name":"Burger King","contact":1111,"address":"xx"}]
+}
+
+json-server --watch db.json -> akan dapat url utk masing2 variabel json
+
+install axios:
+npm install axios
+
+install vue router :
+npm install vue-router@next
+buat file router.js di folder utama :
+import Home from "./components/Home.vue";
+import SignUp from "./components/SignUp.vue";
+import Login from "./components/Login.vue";
+import Add from "./components/Add.vue";
+import Update from "./components/Update.vue";
+
+import { createRouter, createWebHistory } from "vue-router";
+const routes = [
+  {
+    name: "Home",
+    component: Home,
+    path: "/",
+  },
+  {
+    name: "SignUp",
+    component: SignUp,
+    path: "/sign-up",
+  },
+  {
+    name: "Login",
+    component: Login,
+    path: "/login",
+  },
+  {
+    name: "Add",
+    component: Add,
+    path: "/add",
+  },
+  {
+    name: "Update",
+    component: Update,
+    path: "/update/:id",
+  },
+];
+const router = createRouter({
+   history: createWebHistory(),
+   routes,
+})
+export default router;
+
+
+

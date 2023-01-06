@@ -1,0 +1,72 @@
+var myCollapseEl = document.getElementById('myCollapse')
+const collection = document.getElementsByClassName("example");
+
+
+myCollapseEl.addEventListener('shown.bs.collapse', function (event) {
+  // Action to execute once the collapsible area is expanded
+})
+
+<button type="button" onclick="document.getElementById('demo').innerHTML = Date()"> Click me to display Date and Time.</button>
+
+<button type="button" onclick='document.getElementById("demo").innerHTML = "Hello JavaScript!"'>Click Me!</button>
+
+<button onclick="document.getElementById('myImage').src='pic_bulbon.gif'">Turn on the light</button>
+
+<img id="myImage" src="pic_bulboff.gif" style="width:100px">
+
+<button onclick="document.getElementById('myImage').src='pic_bulboff.gif'">Turn off the light</button>
+
+<button type="button" onclick="document.getElementById('demo').style.fontSize='35px'">Click Me!</button>
+
+document.getElementById("demo").style.display = "none";
+
+<script>
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+<p id="demo">A Paragraph</p>
+<button type="button" onclick="myFunction()">Try it</button>
+
+<script type="" src="myScript.js"></script>
+
+onchange, onclick, onmouseover, onmouseout, onkeydown, onload
+
+const obj = JSON.parse(text);
+<p id="demo"></p>
+
+<script>
+document.getElementById("demo").innerHTML =
+obj.employees[1].firstName + " " + obj.employees[1].lastName;
+</script>
+
+Javascript HTML DOM
+
+const para = document.createElement("p");
+para.innerText = "This is a paragraph";
+document.body.appendChild(para);
+
+const h1 = document.createElement("h1");
+const textNode = document.createTextNode("Hello World");
+h1.appendChild(textNode);
+
+<script>
+document.querySelector("p").style.backgroundColor = "red";
+document.querySelector(".example");
+</script>
+
+document.addEventListener("click", function(){
+  document.getElementById("demo").innerHTML = "Hello World";
+});
+
+document.addEventListener("click", myFunction);
+
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Hello World";
+}
+
+const myBody = document.body.innerHTML;
+document.body.style.backgroundColor = "yellow";
+document.body.innerHTML = "Some new HTML content";
+
+
