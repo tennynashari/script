@@ -1,0 +1,51 @@
+firebase
+
+expo install firebase
+
+console.firebase.google.com -> add project -> after finish klik web icon to register app -> copy config project firebase
+
+buat firebase.js:
+import firebase from "Firebase";
+const firebaseConfig = {
+  //masukkan config project firebase
+}
+!firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
+export default firebase;
+
+di file yg memanggil firebase(viewcart.js):
+const addOrderToFirebase = () => {
+   setLoading(true);
+   const db = firebase.firestore();
+   db.collection("orders").add({
+     items: items,
+     restaurantName: restaurantName,
+     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+   }).then(()=>{setTimeout(()=>{setLoading(false); navigation.navigate("OrderComplete");},2500);
+   });   
+}
+
+di console.firebase.google.com -> pilih firestore database -> create database -> stlh itu set rule di tab rules lalu publish -> create collection("orders") di tab Data
+
+yarn add lottie-react-native
+
+OrderComplete.js :
+import LottiView from "lottie-react-native";
+isi hampir sama dgn di viewcart.js
+download animasi lottie di lottiefiles.com dalam bentuk json
+
+<LottieView style={{}} source={require("..assets/animations/.json")} autoplay speed={0.5} loop={false} />
+<Text> Your Order at {restaurantName} has been placed for</Text>
+<ScrollView><MenuItems foods={lastOrder.items} hidecheckbox={true}> </ScrollView>
+
+useEffect(()=>{
+  const db = firebase.firestore();
+  const unsubscribe =    db.collection("orders").orderBy("createdAt","desc").limit(1).onSnapshot((snapshot)=>{snapshot.docs.map((doc)=>{setLastOrder(doc.data()});});
+return () => unsubscribe();}, []);
+
+const [lastOrder, setLastOrder] = useState({ items : [{title: "Bologna", description: "xxx", price: "$13.50", image: "http://www.xxx.com" }]})
+
+
+
+
+})
+ 

@@ -1,0 +1,26 @@
+panel :
+grup 0(3D) : box, extrude(ketebalan object), prespull(menset ketebalan objek 2D atau memotong object 3D) dll
+grup 0b(3D) : mesh
+grup 0c(3D) : extract edge, color edge, copy edge(copy sisi dari object), solid union(menggabungkan object 3D), dll
+grup 1(object): line, polyline, circle, arc
+grup 2 : move, copy, stretch, rotate, mirror, scale, trim(klik aja objeknya tapi sudah dibatasi dgn objek lain), fillet(mengedit ujung object), filletedge, array, offset
+grup 3 : text(utk text skala), dimension(utk simbol dimensi(ada pilihan linier)), annotation, table
+grup 4 : layer properties
+
+kanan atas workspace : pilihan sudut tampilan gambar(atas, depan, belakang, dsb) atau kiri atas klik tulisan custom view, SE ISometric utk tampilan 3D
+kanan bawah workspace : ada workspace swicthing utk pilihan 3d basic, 3D MODELING(munculin menu 3D), annotation
+bawah tengah : command bar
+mouse wheel : utk zoom
+pindah object : klik sampai muncul pointer
+pilih 2 object : klik object pertama, tekan cntrl, klik object kedua
+klik kanan di object : milih aksi utk object tsb(move, copy, delete, properties, dsb)
+kanan bawah ada polar tracking(snap object, angle), ortho(buat garis hanya vertikal dan horizontal),
+press ESC untuk unselect object
+kanan bawah ujung ada customization : pilih dynamic ucs(utk bisa memilih permukaan dan kursor hanya beredar di sekitar permukaan) , kanan bawah juga ada snap ucs(ada pilihan endpoint, mid point, center, dll)
+
+cara buat object :
+1. klik object di grup 1 , klik di workspace, lalu bisa input value di command bar, atau klik/drag di workspace lagi, klik esc utk cancel, 
+2. Klik di workspace, lalu ketikkan command line utk object misal : LINE,
+
+LINE :
+klik line, klik di workspace, klik titik kedua, klik TAB(utk menentukan angle)

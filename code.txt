@@ -1,0 +1,43 @@
+let defaultState = {
+   selectedItems: { items: [], restaurantName: "" },
+};
+
+let cartReducer = (state = defaultState, action) => {
+    switch (action.type) {
+      case "ADD_TO_CART": {
+        let newState = { ...state};
+        newState.selectedItems = {
+           items: [...newState.selectedItem.items, action.payload],
+           restaurantName: action.payload.restaurantName,
+        }
+        return newState;
+      }
+      default:
+        return state;
+    }
+};
+
+export default cartReducer;
+
+index.js
+import {combineReducers} from "redux";
+import cartReducer from "./cartReducer";
+
+let reducers = combineReducers({
+  cartReducer: cartReducer,
+})
+
+const rootReducer = (state,action) => {
+   return reducers(state,action);
+}
+
+export default rootReducer;
+
+store.js
+import {createStore} from "redux";
+import reducer from "./reducers/index";
+
+export default function configureStore(initialState) {
+   const store = createStore(reducer, initialState);
+   return store;
+}
