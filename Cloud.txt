@@ -1,0 +1,29 @@
+aws.amazon.com 
+
+Macam2 cloud : 
+
+Deployment models : public cloud, private cloud, hybrid cloud 
+
+Service models : infrastructure as service(complete akses seperti EC2 VM), platform(akses sebagian misal dashbord saja elastic beanstalk) , software(hanya akses ke software saja misal facebook) 
+
+Service domain in AWS : compute, storahe, database, management, security, app engagement, customer engagement
+
+Devops : managed, automatic and monitor applicatiom 
+
+Application life cycle : pra - code - test - package - deploy - monitor 
+
+Kebutuhan application : server, storage, network, security 
+
+Shared hosting, VPS, colocation , cloud 
+
+Salah satu azure service adalah azure devops(dev.axure.com) 
+
+1. Azure Boards : report , bugs
+2. Azure Pipelines : test and package, menyimpan file .yaml(terdiri dr perintah2 misal : membuat file docker, docker push, dll)
+3. Azure Repos : code, pull, push
+4. Azure Test Plans
+5. Azure Artifacts 
+
+Azure service : compute, networking,  storage, machine learnings, mobile, IoT, AI, Web, Devops,dabase, security, dll 
+
+Azure VM : portal.azure.com

@@ -1,0 +1,30 @@
+https://techencyclopedia.wordpress.com/2017/08/13/how-to-setup-fortigate-firewall-to-access-the-internet/ 
+
+Vpn
+https://www.routecloud.net/blog/belajar-fortigate-easy-create-remote-vpn-atau-ssl-vpn-tunnel/2/ 
+
+Network : interface, route, vlan  dns
+Policy & object : nat, firewall, ip pool
+Vpn
+User & device
+System
+Security profiles : url filter 
+
+Bandwith management
+https://docs.fortinet.com/document/fortigate/5.4.0/cookbook/107907/limiting-bandwidth-with-traffic-shaping
+
+
+Url filter
+https://docs.fortinet.com/document/fortigate/6.2.0/cookbook/615462/url-filter#:~:text=To%20create%20URL%20filter%20in,the%20New%20URL%20Filter%20pane.&text=FortiGate%20tries%20to%20strictly%20match%20the%20full%20context. 
+
+Vlan
+https://community.fortinet.com/t5/FortiGate/Technical-Tip-How-to-create-a-VLAN-tagged-interface-802-1q-on-a/ta-p/193893 
+
+Dhcp
+https://support.pilotfiber.com/fortinet/how-configure-dhcp-fortigate-60d 
+
+Backup Restore
+System -> Maintenance -> Backup Restore 
+
+Snmp
+System->SNMP

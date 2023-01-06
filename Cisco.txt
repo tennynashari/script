@@ -1,0 +1,100 @@
+Show running-config
+Show run int 
+
+Vlan dan inter vlan 
+
+https://www.cisco.com/c/en/us/support/docs/lan-switching/inter-vlan-routing/41860-howto-L3-intervlanrouting.html 
+
+switchport trunk allow vlan
+switchport tunk encapsilation dot1q 
+
+interface fa10.1
+encapsulation dit1q 10 
+
+Nat 
+
+https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipaddr_nat/configuration/xe-16/nat-xe-16-book/iadnat-addr-consv.html 
+
+Access List
+https://www.cisco.com/c/en/us/support/docs/security/ios-firewall/23602-confaccesslists.html 
+
+Dhcp
+https://musaamin.web.id/cisco-cara-setting-dhcp-server/ 
+
+Service dhcp
+Ip dhcp pool
+Network
+Default-router
+Domain-name
+End 
+
+Spanning tree
+https://www.diaryconfig.com/2017/09/konfigurasi-spanning-tree-pada-cisco.html?m=1 
+
+Aggregation
+https://www.cisco.com/c/en/us/td/docs/ios/12_2sb/feature/guide/gigeth.html 
+
+Backup Restore
+Copy running-config tftp:
+Copy tftp: flash: (instsll Ios) 
+
+Snmp
+snmp-server host <IP Address> version <v1 or 2c> <RO community string> 
+
+https://www.manageengine.com/products/oputils/enable-snmp-cisco-router.html 
+
+vtp
+Vtp mode server
+Vtp domain
+Vtp password 
+
+Ntp
+Ntp timezone
+Ntp server 
+
+Voice
+Switchport voice vlan
+Download ios voice and cucme
+copy tftp: flash: (ios voice)
+archive tar /extract tftp:/ flash: (cucm)
+Dir flash:/phone (file extract cucm)
+tftp-server flash:/phone/ (cucm server jadi tftp server ke device ip phone) 
+
+Conf t
+   Telephony-service
+   Ip source-address 
+   Max-ephone (jumlah device fisik)
+   Max-DN (jumlah extension) 
+   load 7960 xxx.loads
+   Create cnf-files 
+
+Conf t
+   Ephone-DN 1
+   Number 4001
+   call-forward noan 4002 timeout 30 (Call  forward)
+   Transfer mode (call transfer)
+   Transfer pattern xxx
+   Pickup-group xxx (call pickup)
+   Ephone 1
+   Mac-address xxx
+   Button 1:2
+Restart all
+Reset
+Telephony-service setup
+Show telephony-service 
+
+Voice gateway
+Show voice port summary
+Conf t
+Voice port 0/0/0
+Caller-id enable
+Station-id number 60001
+Station-id name xxx
+Cptone
+Ring-frequency 
+
+Bgp
+router bgp 45000 bgp log-neighbor-changes address-family ipv4 neighbor 172.16.1.2 remote-as 45000 neighbor 192.168.1.2 remote-as 40000 neighbor 192.168.3.2 remote-as 50000 neighbor 172.16.1.2 activate neighbor 192.168.1.2 activate neighbor 192.168.3.2 activate network 172.17.1.0 mask 255.255.255.0 exit-address-family 
+
+Redistribute
+router eigrp 100 redistribute bgp 45000 metric 10000 100 255 1 1500 route-map bgp-to-eigrp no auto-summary exit

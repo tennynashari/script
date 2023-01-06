@@ -1,0 +1,43 @@
+Vlan 
+
+[edit] set vlans employee-vlan 
+[edit] set vlans employee-vlan vlan-id 100
+[edit] set interfaces ge-0/0/1 unit 0 family ethernet-switching vlan members employee-vlan
+[edit] set interfaces ge-0/0/2 unit 0 family ethernet-switching vlan members employee-vlan
+[edit] set interfaces ge-0/0/3 unit 0 family ethernet-switching vlan members employee-vlan 
+
+set interfaces vlan unit 100 family inet address 192.0.0.1/24 
+
+set vlans employee-vlan l3-interface vlan.100 
+
+set system host-name R1 
+set system root-authentication plain-text-password
+set interfaces ge-0/0/0 unit 0 description “Link from R1 to R2” 
+set interfaces ge-0/0/0 unit 0 family inet address 172.16.1.1/24 
+set interfaces lo0 unit 0 family inet address 10.0.0.1/32
+set interfaces lo0 unit 0 family inet address 10.0.0.2/32 
+set routing-options static route 192.168.47.0/24 next-hop 172.16.1.2 
+
+NAT
+https://www.juniper.net/documentation/us/en/software/junos/nat/topics/topic-map/security-nat-configuration-overview.html
+
+
+
+
+
+Stp
+https://www.juniper.net/documentation/us/en/software/junos/stp-l2/topics/topic-map/spanning-tree-configuring-stp.html
+set stp interface interface-name 
+
+Aggregate
+https://www.juniper.net/documentation/us/en/software/junos/interfaces-ethernet-switches/topics/topic-map/switches-interface-aggregated.html 
+
+Dhcp
+https://routersimulator.certexams.com/juniper-sim/labs/dhcp-1.html 
+
+Backup Restore
+request system software configuration-restore ftp://ftp.test.net/test 
+request system software configuration-backup ftp://ftp.test.net/test 
+
+Snmp
+https://www.juniper.net/documentation/en_US/release-independent/nce/topics/example/snmp-config-cli-qfx-series.html
