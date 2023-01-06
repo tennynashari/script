@@ -1,0 +1,85 @@
+https://mfikri.com/artikel/vuejs-untuk-pemula 
+
+Npm install -g @vue/cli
+vue create ...
+Nmp run serve
+Port 8080 
+
+Npm run serve -- --port=3000, set port di vue.config.js 
+
+Vue --version 
+
+Npm init -> create package.json, scripts->start :penting 
+
+Main.js, app.vue, component 
+
+Created, computed, mounted 
+
+v-if, v-on:click, v-model, v-bind:href 
+
+Axios(url, {data}, header).then.catch.finally 
+
+Fetch(url, {method, header}, body }.then.then.catch.finally 
+
+Router : set di awal instalasi, ada src/router dan views, set di src/router dan app.vue 
+
+Fontawesome
+npm i --save @fortawesome/fontawesome-svg-core 
+npm i --save @fortawesome/free-solid-svg-icons 
+npm i --save @fortawesome/free-brands-svg-icons 
+npm i --save @fortawesome/free-regular-svg-icons 
+npm i --save @fortawesome/vue-fontawesome 
+npm i --save @fortawesome/vue-fontawesome@prerelease 
+
+//vue-app/src/main.js 
+import { library } from "@fortawesome/fontawesome-svg-core"; 
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"; import { fas } from '@fortawesome/free-solid-svg-icons' library.add(fas); 
+import { fab } from '@fortawesome/free-brands-svg-icons'; library.add(fab);
+import { far } from '@fortawesome/free-regular-svg-icons'; library.add(far);
+import { dom } from "@fortawesome/fontawesome-svg-core"; dom.watch(); 
+
+const app = createApp(App); app.component("font-awesome-icon", FontAwesomeIcon); // add necessary dependencies... app.mount("#app"); 
+
+<i class="fad fa-laugh-wink"></i> 
+
+Bootsratp
+npm install bootstrap bootstrap-vue --save
+Main.js
+import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import 'bootstrap/dist/css/bootstrap.css'; 
+
+Vue.use(BootstrapVue); 
+
+<b-button variant="success">Button</b-button 
+
+Install di Centos
+curl -sL https://rpm.nodesource.com/setup_12.x | sudo bash -
+yum install -y nodejs
+Npm install -g @vue/cli 
+
+Session
+npm i vue-session
+import VueSession from 'vue-session'
+Vue.use(VueSession) 
+
+this.$session.start()
+this.$session.set(key, value)
+this.$session.get(key) 
+
+Form Validation
+<form id="app" @submit="checkForm" action="https://vuejs.org/" method="post" novalidate="true" > 
+<p v-if="errors.length"> <b>Please correct the following error(s):</b> <ul> <li v-for="error in errors">{{ error }}</li> </ul> </p> 
+<p> <label for="name">Name</label> <input id="name" v-model="name" type="text" name="name" > </p> 
+<p> <label for="email">Email</label> <input id="email" v-model="email" type="email" name="email" > </p> 
+<p> <label for="movie">Favorite Movie</label> <select id="movie" v-model="movie" name="movie" > <option>Star Wars</option> <option>Vanilla Sky</option> <option>Atomic Blonde</option> </select> </p>
+<p> <input type="submit" value="Submit" > </p>
+</form> 
+
+methods: { 
+checkForm: function (e) { 
+this.errors = [];
+if (!this.name) { this.errors.push("Name required."); }
+if (!this.email) { this.errors.push('Email required.'); } 
+else if (!this.validEmail(this.email)) { this.errors.push('Valid email required.'); } if (!this.errors.length) { return true; } e.preventDefault(); }, 
+validEmail: function (email) { var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; return re.test(email); } }

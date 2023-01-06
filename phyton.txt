@@ -1,0 +1,372 @@
+Input user 
+
+username = input("Enter username:")
+print("Username is: " + username) 
+
+Database 
+
+phyton -m pip install mysql-connector-phyton 
+
+import mysql.connector 
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="yourusername",
+  password="yourpassword"
+) 
+
+mycursor = mydb.cursor() 
+
+mycursor.execute("CREATE DATABASE mydatabase") 
+
+sql = "INSERT INTO customers (name, address) VALUES (%s, %s)"
+val = ("John", "Highway 21")
+mycursor.execute(sql, val) 
+
+mydb.commit() 
+
+mycursor.execute("SELECT * FROM customers") 
+
+myresult = mycursor.fetchall() 
+
+for x in myresult:
+  print(x) 
+
+String
+A = "banana"
+Print(len(A)) 
+For X in A :
+      Print(X)
+Print(A[1]) 
+
+If A < 10 : 
+
+mylist = ["apple", "banana", "cherry"]
+mylist[1] 
+
+mylist.append("orange")
+mylist.insert(1, "orange") 
+
+tropical = ["mango", "pineapple", "papaya"]
+mylist.extend(tropical) 
+
+mylist.remove("banana")
+mylist.pop(1) 
+
+for x in mylist:
+  print(x) 
+
+for i in range(len(mylist)):
+  print(mylist[i]) 
+
+while i < len(mylist):
+  print(mylist[i])
+  i = i + 1 
+
+fruits = ["apple", "banana", "cherry", "kiwi", "mango"]
+newlist = [] 
+
+for x in fruits:
+  if "a" in x:
+    newlist.append(x) 
+
+newlist.sort()
+mylist = newlist.copy() 
+
+list1 = ["a", "b", "c"]
+list2 = [1, 2, 3] 
+
+list3 = list1 + list2 
+
+thisset = {"apple", "banana", "cherry"}
+print(thisset) 
+
+thisset = {"apple", "banana", "cherry"} 
+
+thisset.add("orange") 
+
+thisset = {"apple", "banana", "cherry"}
+tropical = {"pineapple", "mango", "papaya"} 
+
+thisset.update(tropical) 
+
+thisset = {"apple", "banana", "cherry"} 
+
+thisset.remove("banana") 
+
+set1 = {"a", "b" , "c"}
+set2 = {1, 2, 3} 
+
+set3 = set1.union(set2) 
+
+thisdict = {
+  "brand": "Ford",
+  "model": "Mustang",
+  "year": 1964
+} 
+
+x = thisdict["model"]
+x = thisdict.get("model")
+x = thisdict.keys()
+thisdict["year"] = 2018
+thisdict.update({"year": 2020})
+thisdict["color"] = "red" 
+
+thisdict.update({"color": "red"})
+thisdict.pop("model") 
+
+for x in thisdict:
+  print(thisdict[x])
+for x, y in thisdict.items():
+  print(x, y) 
+
+for x in thisdict.values():
+  print(x)
+for x in thisdict.keys():
+  print(x) 
+
+mydict = thisdict.copy() 
+
+myfamily = {
+  "child1" : {
+    "name" : "Emil",
+    "year" : 2004
+  },
+  "child2" : {
+    "name" : "Tobias",
+    "year" : 2007
+  },
+  "child3" : {
+    "name" : "Linus",
+    "year" : 2011
+  }
+} 
+
+Function
+def my_function(fname):
+  print(fname + " Refsnes") 
+
+def my_function(x):
+  return 5 * x 
+
+def tri_recursion(k):
+  if(k > 0):
+    result = k + tri_recursion(k - 1)
+    print(result)
+  else:
+    result = 0
+  return result
+
+
+
+
+
+Class
+class Person:
+  def _init_(self, name, age):
+    self.name = name
+    self.age = age 
+
+  def myfunc(self):
+    print("Hello my name is " + self.name) 
+
+p1 = Person("John", 36)
+p1.myfunc() 
+
+Module
+def greeting(name):
+  print("Hello, " + name) -> simpan sbg mymodule.py 
+
+import mymodule 
+
+mymodule.greeting("Jonathan") 
+
+person1 = {
+  "name": "John",
+  "age": 36,
+  "country": "Norway"
+} 
+
+import mymodule 
+
+a = mymodule.person1["age"]
+print(a) 
+
+Date
+import datetime 
+
+x = datetime.datetime.now()
+print(x)
+print(x.year)
+print(x.strftime("%A"))
+
+
+
+x = datetime.datetime(2020, 5, 17) 
+
+print(x) 
+
+x = datetime.datetime(2018, 6, 1) 
+
+print(x.strftime("%B")) 
+
+Json
+import json 
+
+# some JSON:
+x =  '{ "name":"John", "age":30, "city":"New York"}' 
+
+# parse x:
+y = json.loads(x) 
+
+# the result is a Python dictionary:
+print(y["age"])
+
+
+# a Python object (dict):
+x = {
+  "name": "John",
+  "age": 30,
+  "city": "New York"
+} 
+
+# convert into JSON:
+y = json.dumps(x) 
+
+# the result is a JSON string:
+print(y)
+
+
+
+Try except 
+
+try:
+  f = open("demofile.txt")
+  try:
+    f.write("Lorum Ipsum")
+  except:
+    print("Something went wrong when writing to the file")
+  finally:
+    f.close()
+except:
+  print("Something went wrong when opening the file") 
+
+Django
+py/phyton -m venv myproject
+source myproject/bin/activate (unix)
+myproject\Scripts\activate.bat (windows) 
+
+py/phyton -m pip install Django
+phyton --version
+django-admin --version
+django-admin startproject myworld
+cd myworld
+py manage.py runserver
+py manage.py startapp members
+py manage.py runserver , port 8000
+py manage.py createsuperuser -> lalu akses url/admin dan import model ke admin.py
+py manage.py shell -> insert database dr cmd, from .models import models, data = new models(first='xxx'), data.save() 
+
+View -> myworld/member/views.py
+Url -> myworld/member/urls.py
+View url -> myworld/urls.py 
+
+Django urls
+from django.urls import path
+from . import views 
+
+urlpatterns = [ path('/ ', views.index, name='index'), ]
+urlpatterns = [ path('/<int:x> ', views.index, name='index'), ] 
+
+urlpatterns = [ path('members/ ', include('members.url')), ] 
+
+Myworld/urls.py
+from django.contrib import admin
+from django.urls import include, path 
+
+urlpatterns = [
+    path('members/', include('members.urls')),
+    path('admin/', admin.site.urls),
+] 
+
+Django views
+Myworld/member/views.py
+from django.http import HttpResponse from django.template import loader 
+
+def index(request): 
+template =loader.get_template('myfirst.html')
+return HttpResponse(template.render()) 
+
+return render(request,'template/.html', {variable}) 
+
+request.GET['field'] 
+
+variable={
+  'Person' : person,
+  'Item_list' : item_list,
+} 
+
+Django DB and models
+pip install mysqlclient
+Myworld/settings.py -> DATABASES
+py manage.py migrate 
+
+Myworld/members/models.py: 
+
+from django.db import models 
+
+class Members(models.Model): 
+firstname = models.CharField(max_length=255) lastname = models.CharField(max_length=255)
+def str(self):
+     return self.firstname 
+
+models.DateTimeField('date published')
+models.IntegerField(max_length=200)
+models.TextField(max_length=200)
+models.ForeignKey(Members, on_delete=models.CASCADE)
+models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False) 
+
+Tambahkan di settings.py -> INSTALLED_APPS = ['app1'] 
+
+py manage.py makemigrations members -> di folder myworld, disimpan di folder migrations 
+
+py manage.py migrate 
+
+py manage.py shell -> masuk shell utk operate database
+from members.models import Members
+Members.objects.all()
+member = Members(firstname='Emil', lastname='Refsnes')
+member.save()
+Members.objects.all().values() 
+
+from django.http import HttpResponse from django.template import loader from .models import Members 
+
+def index(request): 
+Members.objects.filter(firstname='').values
+Members.objects.filter(firstname='', id=2).values
+Members.objects.filter(firstname='').values | Members.objects.filter(firstname='').value
+Members.objects.filter(firstname.startswith='L').values
+Members.objects.filter(firstname.contains='L').values
+Members.objects.all().values().order_by('firstname').values
+Members.objects.values_list('firstname')
+Union(), first(), last(), reverse(), exists(),get(id=1), intersection(), aggregate(count()), 
+
+
+model = Models(firstname=,lastname=)
+model.save()
+model.firstname=''
+model.save() 
+
+model.delete()
+DjangoResources 
+
+Buat directory /templates utk file2 html
+<h1>Members</h1>
+<table border="1">
+{% for x in mymembers %}
+<tr> <td>{{ x.id }}</td> <td>{{ x.firstname }}</td> <td>{{ x.lastname }}</td> </tr> {% endfor %}
+</table> 
+
+{% extends "  .html" %}
+{% block content %}
+{% endblock %}

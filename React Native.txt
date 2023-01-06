@@ -1,0 +1,1045 @@
+React Native 
+
+1. Dasar
+Npm install -g expo-cli
+expo init xxx
+npm start, expo start
+Import {StyleSheet, Text, View} from 'react-native';
+npm install --legacy-peer-deps
+npm install, npm run ios/android
+install plugin ES7+React/Redux di viscode
+File utama : App.js , folder screen, asset, component, file utama di folder adl index.js
+isFocused = useIsFocused, import useIsFocused from '@react-navigation/4core'
+useIsFocused ? < object /> : null
+console.log()
+<Text>{ booleanvar && 'yyy'}  </Text>
+<Text> {booleanvar ? 'Show less' : 'read more'}</Text>
+{booleanVar && (<Text>xxx</Text>)}
+{items.map((item,index)=>( )}
+useEffect(()=>{ method(); } ,[]);
+componentDidMount() {  }, dsb
+fungsi string : var.split(",") , var.toLowerCase()
+useContext()
+2. Stylesheet
+     width:50, height, flex:1, marginTop/Bottom/Horizontal/Vertical:8/"5%", margin, borderTopLeft, borderBottomColor, borderColor, borderBottomWidth,  flexDirection:"row",flexWrap="wrap",
+backgroundColor:"blue", color, opacity backgroundColor: 'rgba(255,255,255,0.5)', background:, padding, paddingHorizontal:8, borderRadius:4, alignSelf:"center/flex-start/end/space-around/space-evenly/space-between", textAlign:"center", minWidth:"50%", maxWidth:, borderWidth:0, fontSize:15, elevation:1, fontWeight:"900", fontFamily, fontSize, color:"white", zIndex:0,  justifyContent, alignItems,position:"absolute", lineHeight, resizeMode: 'contain'; shadowOpacity: 0.5, shadowRadius: 10; shadowOffset:{width:0, height:2,}, elevation:2
+style={margin: index===0?0:1}
+3. State
+     const [name, setName] = useState()
+4. Props
+5. Object 
+     View, Text, TextInput, FlatList, Image SafeAreaView, TouchableOpacity(bisa seperti button dgn style width, background, dll), <Divider width={1} /> ImageBackground, StatusBar, ScrollView, react-native-bouncy-checkbox
+<BouncyCheckbox iconStyle={{ }} fillcolor=" " />   
+import {useFonts} from '/screen/'expo-
+     font'
+<Modal animationType='slide' visible={true} onRequestClose={()=>setModalVisible(false)} transparent> <\Modal>
+6. Database
+7. Navigation
+8. Maps -> react_native_maps mapview, marker
+9. Modul : React Spring(animasi), React select, react slate(text editor), react sweet alert 
+
+Array/Object : 
+
+const handleAdd = (todo) => { const newTodos = [...todos]; newTodos.push(todo); setTodos(newTodos); } 
+
+const handleAdd = (todo) => { setTodos([...todos, todo]); } 
+
+const handleRemove = (todo) => { const newTodos = todos.filter((t) => t !== todo); setTodos(newTodos); atau setTodos([...todos.filter((t)=>t!==todo)]); 
+
+const handleUpdate = (index, todo) => { const newTodos = [...todos]; newTodos[index] = todo; setTodos(newTodos); } 
+
+Object
+Add/Update
+const handleAdd = (todo) => { setTodos({...todos, [todo.id]: todo}); } 
+
+const handleRemove = (todo) => { const newTodos = {...todos} delete newTodos[todo.id] setTodos(newTodos); } 
+
+Database 
+
+const getMoviesFromApi = () => {
+  return fetch('https://reactnative.dev/movies.json')
+    .then((response) => response.json())
+    .then((json) => {
+      return json.movies;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}; 
+
+const getMoviesFromApiAsync = async () => {
+  try {
+    const response = await fetch(
+      'https://reactnative.dev/movies.json'
+    );
+    const json = await response.json();
+    return json.movies;
+  } catch (error) {
+    console.error(error);
+  }
+}; 
+
+fetch('https://mywebsite.com/endpoint/', {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    firstParam: 'yourValue',
+    secondParam: 'yourOtherValue'
+  })
+}); 
+
+Axios 
+
+axios.post('/user', { firstName: 'Fred', lastName: 'Flintstone' }) .then(function (response) { console.log(response); }) .catch(function (error) { console.log(error); }); 
+
+Navigation
+// In App.js in a new project 
+
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'; 
+
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+    </View>
+  );
+} 
+
+const Stack = createNativeStackNavigator();
+const screenOptions = {
+   headerShown: false;
+}; 
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Home' screenOptions={screenOptions}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+} 
+
+navigation.navigate("page", {data})
+route.params.data, navigation.goback() 
+
+export default App;
+
+
+function App() {
+return (
+<NavigationContainer>
+<Stack.Navigator initialRouteName="Home">
+<Stack.Screen name="Home" component={HomeScreen} />
+<Stack.Screen name="Details" component={DetailsScreen} />
+</Stack.Navigator>
+</NavigationContainer>
+);
+} 
+
+Icon 
+
+React native element
+npm install react-native-elements 
+
+import { Icon } from 'react-native-elements' 
+
+<Icon name='rowing' /> <Icon name='g-translate' color='#00aced' /> <Icon name='sc-telegram' type='evilicon' color='#517fa4'/> 
+
+Fontawesome 
+
+https://fontawesome.com/v6.0/icons/acorn?s=solid 
+
+Install -> https://fontawesome.com/v5.15/how-to-use/on-the-web/setup/using-package-managers 
+
+Install -> npm install --save @fortawesome/fontawesome-free 
+
+<FontAwesomeIcon icon="fa-thin fa-flower-tulip" /> -> react native 
+
+Install html 
+
+https://fontawesome.com/v5.15/how-to-use/on-the-web/setup/hosting-font-awesome-yourself 
+
+<head>
+  <link href="/your-path-to-fontawesome/css/all.css" rel="stylesheet"> <!--load all styles -->
+</head>
+<body>
+  <i class="fas fa-user"></i> <!-- uses solid style -->
+  <i class="far fa-user"></i> <!-- uses regular style -->
+  <i class="fal fa-user"></i> <!-- uses light style -->
+  <!--brand icon-->
+  <i class="fab fa-github-square"></i> <!-- uses brands style -->
+</body> 
+
+UUID
+npm install react-native-uuid
+import uuid from 'react-native-uuid'; uuid.v4(); 
+
+React native in IOS
+https://www.codepolitan.com/membuat-aplikasi-ios-pertama-dengan-react-native-58d94ef94eb76 
+
+Component
+Image -> <Image
+        style={styles.tinyLogo}
+        source={require('@expo/snack-static/react-native-logo.png')}
+      />
+<Image source={require('./my-icon.png')} /> 
+
+Touchable opacity
+<TouchableOpacity
+        activeOpacity={1}
+        style={styles.button}
+        onPress={onPress}
+      > 
+
+Flatlist
+<View style={styles.container}>
+      <FlatList
+        data={[
+          {key: 'Devin'},
+          {key: 'Dan'},
+          {key: 'Dominic'},
+          {key: 'Jackson'},
+          {key: 'James'},
+          {key: 'Joel'},
+          {key: 'John'},
+          {key: 'Jillian'},
+          {key: 'Jimmy'},
+          {key: 'Julie'},
+        ]}
+        renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+        keyExtractor={item => item.id}
+        horizontal={true}
+      />
+    </View>
+FlatList renderitem bisa object 
+
+Pagerview
+react-native link react-native-pager-view 
+
+import PagerView from 'react-native-pager-view'; 
+
+const MyPager = () => { return ( <PagerView style={styles.pagerView} initialPage={0}> <View key="1"> <Text>First page</Text> </View> <View key="2"> <Text>Second page</Text> </View> </PagerView> ); }; 
+
+Scrollview
+<ScrollView horizontal={true} style={styles.scrollView}> <View style={styles.slide}> <Text>H1</Text> </View> <View style={styles.slide}> <Text>H2</Text> </View> <View style={styles.slide}> <Text>H3</Text> </View> </ScrollView> 
+
+Safeareaview
+<SafeAreaView style={styles.container}>
+      <Text style={styles.text}>Page content</Text>
+    </SafeAreaView> 
+
+<ActivityIndicator size="large" color="#9E9E9E"/>
+<TextInput
+          style={styles.inputStyle}
+          placeholder="Name"
+          value={this.state.displayName}
+          onChangeText={(val) => this.updateInputVal(val, 'displayName')}
+        />
+<Button
+          color="#3740FE"
+          title="Signup"
+          onPress={() => this.registerUser()}
+        />
+<Text 
+          style={styles.loginText}
+          onPress={() => this.props.navigation.navigate('Login')}>
+          Already Registered? Click here to login
+        </Text>
+<Stack.Screen 
+       name="Dashboard" 
+       component={Dashboard} 
+       options={
+         { title: 'Dashboard' },
+         {headerLeft: null} 
+       }
+<Stack.Navigator
+      initialRouteName="Signup"
+      screenOptions={{
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#3740FE',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+Alert.alert('Enter details to signup!') 
+
+Dimension 
+
+• npm install --save react-native-dimension 
+
+import { Dimensions } from 'react-native'; 
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height; 
+
+import { useWindowDimensions } from 'react-native'; 
+
+const { height, width } = useWindowDimensions(); 
+
+Firebase Auth
+https://rnfirebase.io/auth/usage
+https://rnfirebase.io/
+
+
+
+Date time picker
+npm install @react-native-community/datetimepicker --save 
+
+import React, {useState} from 'react'; import {View, Button, Platform} from 'react-native'; import DateTimePicker from '@react-native-community/datetimepicker'; export const App = () => { 
+const [date, setDate] = useState(new Date(1598051730000)); 
+const [mode, setMode] = useState('date'); const [show, setShow] = useState(false); const onChange = (event, selectedDate) => { const currentDate = selectedDate || date; setShow(Platform.OS === 'ios'); setDate(currentDate); }; const showMode = (currentMode) => { setShow(true); setMode(currentMode); }; const showDatepicker = () => { showMode('date'); }; const showTimepicker = () => { showMode('time'); }; return ( <View> <View> <Button onPress={showDatepicker} title="Show date picker!" /> </View> <View> <Button onPress={showTimepicker} title="Show time picker!" /> </View> {show && ( <DateTimePicker testID="dateTimePicker" value={date} mode={mode} is24Hour={true} display="default" onChange={onChange} /> )} </View> ); }; 
+
+Filesystem
+npm install react-native-file-access
+import { Dirs, FileSystem } from 'react-native-file-access'; 
+
+const fileName = 'myfile.pdf'; //whatever you want to call your file 
+const filePath = `${Dirs.DocumentDir}/${fileName}`; const base64Data = 'V3JpdGluZyBhIGZpbGUgYW5kIG1ha2luZyBpdCB2aXNpYmxlIHRvIHVzZXJzIGluIFJlYWN0IE5hdGl2ZQ=='; //our base64 encode file 
+
+const permissionWriteExternalStorage = async () => { const granted = await PermissionsAndroid.request( PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE ); return granted === PermissionsAndroid.RESULTS.GRANTED; }; if (Platform.OS === 'android') { const permissionGranted = await permissionWriteExternalStorage(); if (permissionGranted) { await FileSystem.writeFile(filePath, base64Data, 'base64'); if (!FileSystem.exists(filePath)) return;// check to see if our filePath was created await FileSystem.cpExternal(filePath, fileName,'downloads');// copies our file to the downloads folder/directory // file should now be visible in the downloads folder } return; } 
+
+File Picker
+npm install react-native-document-picker --save
+<uses-permission android:name="android.permission. 
+
+// Import Document Picker import DocumentPicker from 'react-native-document-picker'; 
+const App = () => { 
+const [singleFile, setSingleFile] = useState(''); 
+const [multipleFile, setMultipleFile] = useState([]); 
+const selectOneFile = async () => { //Opening Document Picker for selection of one file try { const res = await DocumentPicker.pick({ type: [DocumentPicker.types.allFiles], //There can me more options as well // DocumentPicker.types.allFiles // DocumentPicker.types.images // DocumentPicker.types.plainText // DocumentPicker.types.audio // DocumentPicker.types.pdf }); //Printing the log realted to the file console.log('res : ' + JSON.stringify(res)); console.log('URI : ' + res.uri); console.log('Type : ' + res.type); console.log('File Name : ' + res.name); console.log('File Size : ' + res.size); //Setting the state to show single file attributes setSingleFile(res); } catch (err) { //Handling any exception (If any) if (DocumentPicker.isCancel(err)) { //If user canceled the document selection alert('Canceled from single doc picker'); } else { //For Unknown Error alert('Unknown Error: ' + JSON.stringify(err)); throw err; } } }; const selectMultipleFile = async () => { //Opening Document Picker for selection of multiple file try { const results = await DocumentPicker.pickMultiple({ type: [DocumentPicker.types.images], //There can me more options as well find above }); for (const res of results) { //Printing the log realted to the file console.log('res : ' + JSON.stringify(res)); console.log('URI : ' + res.uri); console.log('Type : ' + res.type); console.log('File Name : ' + res.name); console.log('File Size : ' + res.size); } //Setting the state to show multiple file attributes setMultipleFile(results); } catch (err) { //Handling any exception (If any) if (DocumentPicker.isCancel(err)) { //If user canceled the document selection alert('Canceled from multiple doc picker'); } else { //For Unknown Error alert('Unknown Error: ' + JSON.stringify(err)); throw err; } } }; return ( <SafeAreaView style={{flex: 1}}> <Text style={styles.titleText}> Example of File Picker in React Native </Text> <View style={styles.container}> {/To show single file attribute/} <TouchableOpacity activeOpacity={0.5} style={styles.buttonStyle} onPress={selectOneFile}> {/Single file selection button/} <Text style={{marginRight: 10, fontSize: 19}}> Click here to pick one file </Text> <Image source={{ uri: 'https://img.icons8.com/offices/40/000000/attach.png', }} style={styles.imageIconStyle} /> </TouchableOpacity> {/Showing the data of selected Single file/} <Text style={styles.textStyle}> File Name: {singleFile.name ? singleFile.name : ''} {'\n'} Type: {singleFile.type ? singleFile.type : ''} {'\n'} File Size: {singleFile.size ? singleFile.size : ''} {'\n'} URI: {singleFile.uri ? singleFile.uri : ''} {'\n'} </Text> <View style={{ backgroundColor: 'grey', height: 2, margin: 10 }} /> {/To multiple single file attribute/} <TouchableOpacity activeOpacity={0.5} style={styles.buttonStyle} onPress={selectMultipleFile}> {/Multiple files selection button/} <Text style={{marginRight: 10, fontSize: 19}}> Click here to pick multiple files </Text> <Image source={{ uri: 'https://img.icons8.com/offices/40/000000/attach.png', }} style={styles.imageIconStyle} /> </TouchableOpacity> <ScrollView> {/Showing the data of selected Multiple files/} {multipleFile.map((item, key) => ( <View key={key}> <Text style={styles.textStyle}> File Name: {item.name ? item.name : ''} {'\n'} Type: {item.type ? item.type : ''} {'\n'} File Size: {item.size ? item.size : ''} {'\n'} URI: {item.uri ? item.uri : ''} {'\n'} </Text> </View> ))} </ScrollView> </View> </SafeAreaView> ); }; 
+
+File upload 
+
+Import Document Picker import DocumentPicker from 'react-native-document-picker'; const App = () => { const [singleFile, setSingleFile] = useState(null);
+
+const uploadImage = async () => { // Check if any file is selected or not if (singleFile != null) 
+{ // If file selected then create FormData const fileToUpload = singleFile;
+const data = new FormData(); data.append('name', 'Image Upload'); data.append('file_attachment', fileToUpload); // Please change file upload URL let res = await fetch( 'http://localhost/upload.php', { method: 'post', body: data, headers: { 'Content-Type': 'multipart/form-data; ', }, } ); let responseJson = await res.json(); if (responseJson.status == 1) { alert('Upload Successful'); } } else { // If no file selected the show alert alert('Please Select File first'); } }; const selectFile = async () => { // Opening Document Picker to select one file try { const res = await DocumentPicker.pick({ // Provide which type of file you want user to pick type: [DocumentPicker.types.allFiles], // There can me more options as well // DocumentPicker.types.allFiles // DocumentPicker.types.images // DocumentPicker.types.plainText // DocumentPicker.types.audio // DocumentPicker.types.pdf }); // Printing the log realted to the file console.log('res : ' + JSON.stringify(res)); // Setting the state to show single file attributes setSingleFile(res); } catch (err) { setSingleFile(null); // Handling any exception (If any) if (DocumentPicker.isCancel(err)) { // If user canceled the document selection alert('Canceled'); } else { // For Unknown Error alert('Unknown Error: ' + JSON.stringify(err)); throw err; } } }; return ( <View style={styles.mainBody}> <View style={{ alignItems: 'center' }}> <Text style={{ fontSize: 30, textAlign: 'center' }}> React Native File Upload Example </Text> <Text style={{ fontSize: 25, marginTop: 20, marginBottom: 30, textAlign: 'center', }}> www.aboutreact.com </Text> </View> {/Showing the data of selected Single file/} {singleFile != null ? ( <Text style={styles.textStyle}> File Name: {singleFile.name ? singleFile.name : ''} {'\n'} Type: {singleFile.type ? singleFile.type : ''} {'\n'} File Size: {singleFile.size ? singleFile.size : ''} {'\n'} URI: {singleFile.uri ? singleFile.uri : ''} {'\n'} </Text> ) : null} <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5} onPress={selectFile}> <Text style={styles.buttonTextStyle}>Select File</Text> </TouchableOpacity> <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5} onPress={uploadImage}> <Text style={styles.buttonTextStyle}>Upload File</Text> </TouchableOpacity> </View> ); }; 
+
+Camera 
+
+npm install --save react-native-vector-icons react-native-camera 
+
+Set android manifest 
+
+import React, {PureComponent} from 'react';import {RNCamera} from 'react-native-camera';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';import {TouchableOpacity, Alert, StyleSheet} from 'react-native'; 
+
+export default class Camera extends PureComponent {‍
+constructor(props) {
+super(props);
+this.state = {
+takingPic: false,
+};
+}
+takePicture = async () => {
+if (this.camera && !this.state.takingPic) { 
+
+let options = {
+quality: 0.85,
+fixOrientation: true,
+forceUpOrientation: true,
+}; 
+
+this.setState({takingPic: true}); 
+
+try {
+const data = await this.camera.takePictureAsync(options);
+Alert.alert('Success', JSON.stringify(data));
+} catch (err) {
+Alert.alert('Error', 'Failed to take picture: ' + (err.message || err));
+return;
+} finally {
+this.setState({takingPic: false});
+}
+}
+};
+render() {
+return ( 
+
+ref={ref => {
+this.camera = ref;
+}}
+captureAudio={false}
+style={{flex: 1}}
+type={RNCamera.Constants.Type.back}
+androidCameraPermissionOptions={{
+title: 'Permission to use camera',
+message: 'We need your permission to use your camera',
+buttonPositive: 'Ok',
+buttonNegative: 'Cancel',
+}}>
+‍ 
+
+activeOpacity={0.5}
+style={styles.btnAlignment}
+onPress={this.takePicture}>
+‍
+<icon name="camera" size="{50}" color="#fff"></icon>
+‍
+);
+}} 
+
+Acces picture
+import React, {useState} from 'react';
+import Camera from './components/Camera';
+import {SafeAreaView, TouchableHighlight, Image} from 'react-native';
+const App = () => {
+const [img, setImg] = useState(null); 
+
+function onPicture({uri}) {‍
+setImg(uri);
+} 
+
+function onBackToCamera() {‍
+setImg(null);
+} 
+
+return (
+<>‍
+<safeareaview style="{{flex:" 1}}=""></safeareaview>‍
+{img ? ( 
+
+style={{flex: 1}}
+onPress={() => {‍
+onBackToCamera();
+}}>
+‍
+<image source="{{uri:" img}}="" style="{{flex:" 1}}=""></image>‍ 
+
+) : (
+<camera onpicture="{onPicture}"></camera> )}
+‍ 
+
+‍
+</>
+);
+}; 
+
+Image Picker 
+
+https://effectussoftware.com/blog/react-native-image-picker/ 
+
+import React from 'react'; 
+
+import { StyleSheet, Text, View, TouchableOpacity, Button, Image } from 'react-native'; 
+
+import ImagePicker from 'react-native-image-picker'; 
+
+export default class App extends React.Component { 
+
+  constructor(props) { 
+
+    super(props); 
+
+    this.state = { 
+
+      resourcePath: {}, 
+
+    }; 
+
+  } 
+
+  selectFile = () => { 
+
+    var options = { 
+
+      title: 'Select Image', 
+
+      customButtons: [ 
+
+        {  
+
+          name: 'customOptionKey',  
+
+          title: 'Choose file from Custom Option'  
+
+        }, 
+
+      ], 
+
+      storageOptions: { 
+
+        skipBackup: true, 
+
+        path: 'images', 
+
+      }, 
+
+    }; 
+
+    ImagePicker.showImagePicker(options, res => { 
+
+      console.log('Response = ', res); 
+
+      if (res.didCancel) { 
+
+        console.log('User cancelled image picker'); 
+
+      } else if (res.error) { 
+
+        console.log('ImagePicker Error: ', res.error); 
+
+      } else if (res.customButton) { 
+
+        console.log('User tapped custom button: ', res.customButton); 
+
+        alert(res.customButton); 
+
+      } else { 
+
+        let source = res; 
+
+        this.setState({ 
+
+          resourcePath: source, 
+
+        }); 
+
+      } 
+
+    }); 
+
+  }; 
+
+  
+
+  render() { 
+
+    return ( 
+
+      <View style={styles.container}> 
+
+        <View style={styles.container}> 
+
+          <Image 
+
+            source={{ 
+
+              uri: 'data:image/jpeg;base64,' + this.state.resourcePath.data, 
+
+            }} 
+
+            style={{ width: 100, height: 100 }} 
+
+          /> 
+
+          <Image 
+
+            source={{ uri: this.state.resourcePath.uri }} 
+
+            style={{ width: 200, height: 200 }} 
+
+          /> 
+
+          <Text style={{ alignItems: 'center' }}> 
+
+            {this.state.resourcePath.uri} 
+
+          </Text> 
+
+          <TouchableOpacity onPress={this.selectFile} style={styles.button}> 
+
+              <Text style={styles.buttonText}>Select File</Text> 
+
+          </TouchableOpacity>        
+
+        </View> 
+
+      </View> 
+
+    ); 
+
+  } 
+
+} 
+
+Image picker camera 
+
+cameraLaunch = () => { 
+
+    let options = { 
+
+      storageOptions: { 
+
+        skipBackup: true, 
+
+        path: 'images', 
+
+      }, 
+
+    }; 
+
+    ImagePicker.launchCamera⁷(options, (res) => { 
+
+      console.log('Response = ', res); 
+
+      if (res.didCancel) { 
+
+        console.log('User cancelled image picker'); 
+
+      } else if (res.error) { 
+
+        console.log('ImagePicker Error: ', res.error); 
+
+      } else if (res.customButton) { 
+
+        console.log('User tapped custom button: ', res.customButton); 
+
+        alert(res.customButton); 
+
+      } else { 
+
+        const source = { uri: res.uri }; 
+
+        console.log('response', JSON.stringify(res)); 
+
+        this.setState({ 
+
+          filePath: res, 
+
+          fileData: res.data, 
+
+          fileUri: res.uri 
+
+        }); 
+
+      } 
+
+    }); 
+
+} 
+
+Image picker gallery 
+
+ImagePicker.launchImageLibrary 
+
+Pdf view 
+
+npm install react-native-pdf react-native-blob-util fbjs --save 
+
+https://www.npmjs.com/package/react-native-pdf 
+
+import React from 'react'; import { StyleSheet, Dimensions, View } from 'react-native'; import Pdf from 'react-native-pdf'; export default class PDFExample extends React.Component { render() { const source = { uri: 'http://samples.leanpub.com/thereactnativebook-sample.pdf', cache: true }; //const source = require('./test.pdf'); // ios only //const source = {uri:'bundle-assets://test.pdf' }; //const source = {uri:'file:///sdcard/test.pdf'}; //const source = {uri:"data:application/pdf;base64,JVBERi0xLjcKJc..."}; //const source = {uri:"content://com.example.blobs/xxxxxxxx-...?offset=0&size=xxx"}; //const source = {uri:"blob:xxxxxxxx-...?offset=0&size=xxx"}; return ( <View style={styles.container}> <Pdf source={source} onLoadComplete={(numberOfPages,filePath) => { console.log(`Number of pages: ${numberOfPages}`); }} onPageChanged={(page,numberOfPages) => { console.log(`Current page: ${page}`); }} onError={(error) => { console.log(error); }} onPressLink={(uri) => { console.log(`Link pressed: ${uri}`); }} style={styles.pdf}/> </View> ) } } 
+
+Webview 
+
+https://www.npmjs.com/package/react-native-webview 
+
+import React, { Component } from 'react'; import { StyleSheet, Text, View } from 'react-native'; import { WebView } from 'react-native-webview'; // ... class MyWebComponent extends Component { render() { return <WebView source={{ uri: 'https://reactnative.dev/' }} />; } }
+
+
+
+Linking URL
+import React, { Component } from 'react';import { View, StyleSheet, Button, Linking } from 'react-native'; export default class App extends Component { render() { return ( <View style={styles.container}> <Button title="Klik Saya" onPress={ ()=>{ Linking.openURL('https://www.konsepkoding.com/')}} /> </View> ); }} 
+
+Linking email
+<Button onPress={() => Linking.openURL('mailto:support@example.com?subject=SendMail&body=Description') } title="support@example.com" />
+
+
+
+
+
+
+Get currentdate 
+
+var date = new Date().getDate(); //To get the Current Date
+var month = new Date().getMonth() + 1; //To get the Current Month
+var year = new Date().getFullYear(); //To get the Current Year
+var hours = new Date().getHours(); //To get the Current Hours
+var min = new Date().getMinutes(); //To get the Current Minutes
+var sec = new Date().getSeconds(); // 
+
+Ecspos Printer 
+
+https://github.com/tr3v3r/react-native-esc-pos-printer 
+
+import EscPosPrinter, { getPrinterSeriesByName } from 'react-native-esc-pos-printer'; 
+
+async function testPrint() {
+  try {
+      const printers = await EscPosPrinter.discovery() 
+
+      const printer = printers[0] 
+
+      await EscPosPrinter.init({
+        target: printer.target,
+        seriesName: getPrinterSeriesByName(printer.name),
+        language: 'EPOS2_LANG_EN',
+      }) 
+
+      const printing = new EscPosPrinter.printing(); 
+
+      const status = await printing
+        .initialize()
+        .align('center')
+        .size(3, 3)
+        .line('DUDE!')
+        .smooth()
+        .line('DUDE!')
+        .smooth()                
+        .size(1, 1)
+        .text('is that a ')
+        .bold()
+        .underline()
+        .text('printer?')
+        .bold()
+        .underline()
+        .newline(2)
+        .align('center')
+        .image(image, 200)
+        .barcode({
+          value:'Test123',
+          type:'EPOS2_BARCODE_CODE93',
+          hri:'EPOS2_HRI_BELOW',
+          width:2,
+          height:50,
+        })
+        .qrcode({
+          value: 'Test123',
+          level: 'EPOS2_LEVEL_M',
+          width: 5,
+        })
+        .cut()
+        .addPulse()
+        .send() 
+
+        console.log('Success:', status) 
+
+  } catch(e) {
+        console.log('Error:', status)
+  }
+}
+
+
+testPrint()
+Bottom Navigation 
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; 
+
+const Tab = createBottomTabNavigator(); 
+
+function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
+  );
+}
+
+
+  
+
+
+QR Code Scanner 
+
+https://www.npmjs.com/package/react-native-qrcode-scanner 
+
+import React, { Component } from 'react'; import { AppRegistry, StyleSheet, Text, TouchableOpacity, Linking } from 'react-native'; import QRCodeScanner from 'react-native-qrcode-scanner'; import { RNCamera } from 'react-native-camera'; class ScanScreen extends Component { onSuccess = e => { Linking.openURL(e.data).catch(err => console.error('An error occured', err) ); }; render() { return ( <QRCodeScanner onRead={this.onSuccess} flashMode={RNCamera.Constants.FlashMode.torch} topContent={ <Text style={styles.centerText}> Go to{' '} <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on your computer and scan the QR code. </Text> } bottomContent={ <TouchableOpacity style={styles.buttonTouchable}> <Text style={styles.buttonText}>OK. Got it!</Text> </TouchableOpacity> } /> ); } } 
+
+Firebase Auth
+https://blog.codemagic.io/firebase-authentication-using-react-native/ 
+
+https://console.firebase.google.com/ 
+
+https://rnfirebase.io/auth/phone-auth 
+
+https://www.positronx.io/react-native-firebase-login-and-user-registration-tutorial/
+
+
+React Native Element
+https://reactnativeelements.com/ 
+
+https://reactnative.dev/docs 
+
+Modal 
+
+import React, { useState } from "react";
+import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native"; 
+
+const App = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+  return (
+    <View style={styles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Pressable
+        style={[styles.button, styles.buttonOpen]}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={styles.textStyle}>Show Modal</Text>
+      </Pressable>
+    </View>
+  );
+}; 
+
+Menu 
+
+https://www.npmjs.com/package/react-native-menu-viewer?activeTab=readme 
+
+https://callstack.github.io/react-native-paper/menu.html 
+
+https://www.npmjs.com/package/react-native-material-menu 
+
+Pop Up Navigation 
+
+https://www.npmjs.com/package/react-native-popup-navigation 
+
+https://reactnavigation.org/docs/drawer-based-navigation/ 
+
+Card
+import React from 'react';
+import { View, ScrollView, StyleSheet, Image } from 'react-native';
+import { Text, Card, Button, Icon } from 'react-native-elements'; 
+
+const users = [
+  {
+    name: 'brynn',
+    avatar: 'https://uifaces.co/our-content/donated/1H_7AxP0.jpg',
+  },
+  {
+    name: 'thot leader',
+    avatar:
+      'https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb',
+  },
+  {
+    name: 'jsa',
+    avatar: 'https://uifaces.co/our-content/donated/bUkmHPKs.jpg',
+  },
+  {
+    name: 'talhaconcepts',
+    avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
+  },
+  {
+    name: 'andy vitale',
+    avatar: 'https://uifaces.co/our-content/donated/NY9hnAbp.jpg',
+  },
+  {
+    name: 'katy friedson',
+    avatar:
+      'https://images-na.ssl-images-amazon.com/images/M/MV5BMTgxMTc1MTYzM15BMl5BanBnXkFtZTgwNzI5NjMwOTE@._V1_UY256_CR16,0,172,256_AL_.jpg',
+  },
+]; 
+
+type CardsComponentsProps = {}; 
+
+const Cards: React.FunctionComponent<CardsComponentsProps> = () => {
+  return (
+    <>
+      <ScrollView>
+        <View style={styles.container}>
+          <Card>
+            <Card.Title>CARD WITH DIVIDER</Card.Title>
+            <Card.Divider />
+            {users.map((u, i) => {
+              return (
+                <View key={i} style={styles.user}>
+                  <Image
+                    style={styles.image}
+                    resizeMode="cover"
+                    source={{ uri: u.avatar }}
+                  />
+                  <Text style={styles.name}>{u.name}</Text>
+                </View>
+              );
+            })}
+          </Card>
+
+
+Image from asset
+import { Image } from 'react-native'; 
+
+import exampleImage from './assets/images/example.png'
+const exampleImageUri = Image.resolveAssetSource(exampleImage).uri 
+
+<Image source={{uri: exampleImageUri}} /> 
+
+import { Image } from 'react-native'; 
+
+const exampleImage = require('./assets/images/example.png') 
+
+<Image source={exampleImage} />
+
+
+Carousel
+import Carousel from 'react-native-snap-carousel'; export class MyCarousel extends Component { _renderItem = ({item, index}) => { return ( <View style={styles.slide}> <Text style={styles.title}>{ item.title }</Text> </View> ); } render () { return ( <Carousel ref={(c) => { this._carousel = c; }} data={this.state.entries} renderItem={this._renderItem} sliderWidth={sliderWidth} itemWidth={itemWidth} /> ); } } 
+
+Tabview
+expo install react-native-pager-view 
+
+import * as React from 'react'; import { View, useWindowDimensions } from 'react-native'; import { TabView, SceneMap } from 'react-native-tab-view'; const FirstRoute = () => ( <View style={{ flex: 1, backgroundColor: '#ff4081' }} /> ); const SecondRoute = () => ( <View style={{ flex: 1, backgroundColor: '#673ab7' }} /> ); const renderScene = SceneMap({ first: FirstRoute, second: SecondRoute, }); export default function TabViewExample() { const layout = useWindowDimensions(); const [index, setIndex] = React.useState(0); const [routes] = React.useState([ { key: 'first', title: 'First' }, { key: 'second', title: 'Second' }, ]); return ( <TabView navigationState={{ index, routes }} renderScene={renderScene} onIndexChange={setIndex} initialLayout={{ width: layout.width }} /> ); } 
+
+Mapview 
+
+import MapView from 'react-native-maps';
+getInitialState() { return { region: { latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421, }, }; } onRegionChange(region) { this.setState({ region }); } render() { return ( <MapView region={this.state.region} onRegionChange={this.onRegionChange} /> ); } 
+
+import { Marker } from 'react-native-maps'; 
+
+<MapView
+  region={this.state.region}
+  onRegionChange={this.onRegionChange}
+>
+  {this.state.markers.map((marker, index) => (
+    <Marker
+      key={index}
+      coordinate={marker.latlng}
+      title={marker.title}
+      description={marker.description}
+    />
+  ))}
+</MapView> 
+
+const calculateDistance = () => { var dis = getDistance( {latitude: 20.0504188, longitude: 64.4139099}, {latitude: 51.528308, longitude: -0.3817765}, ); alert( `Distance\n\n${dis} Meter\nOR\n${dis / 1000} KM` ); }; const calculatePreciseDistance = () => { var pdis = getPreciseDistance( {latitude: 20.0504188, longitude: 64.4139099}, {latitude: 51.528308, longitude: -0.3817765}, ); alert( `Precise Distance\n\n${pdis} Meter\nOR\n${pdis / 1000} KM` ); }; 
+
+Geolocation 
+
+import Geolocation from "react-native-geolocation-service" // 👈 const App = () => { const [location, setLocation] = useState(null) // 👈 const handleLocationPermission = async () => { let permissionCheck = "" if (Platform.OS === "ios") { permissionCheck = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE) if (permissionCheck === RESULTS.DENIED) { const permissionRequest = await request( PERMISSIONS.IOS.LOCATION_WHEN_IN_USE ) permissionRequest === RESULTS.GRANTED ? console.warn("Location permission granted.") : console.warn("Location perrmission denied.") } } if (Platform.OS === "android") { permissionCheck = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION) if (permissionCheck === RESULTS.DENIED) { const permissionRequest = await request( PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION ) permissionRequest === RESULTS.GRANTED ? console.warn("Location permission granted.") : console.warn("Location perrmission denied.") } } } useEffect(() => { handleLocationPermission() }, []) useEffect(() => { // 👈 Geolocation.getCurrentPosition( position => { const { latitude, longitude } = position.coords setLocation({ latitude, longitude }) }, error => { console.log(error.code, error.message) }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 } ) }, []) 
+
+Search location
+https://dev.to/mosoakinyemi/how-to-create-a-google-autocomplete-form-in-react-native-4ffb 
+
+Search location react native google place
+https://www.npmjs.com/package/react-native-google-places 
+
+Maps direction
+https://github.com/bramus/react-native-maps-directions 
+
+import {Card} from 'react-native-shadow-cards'; render(){ return ( <View style={styles.container}> <Card style={{padding: 10, margin: 10}}> <Text>Open up App.js to start working on your app!</Text> <Text>Changes you make will automatically reload.</Text> <Text>Shake your phone to open the developer menu.</Text> </Card> <Card style={{padding: 10, margin: 10}}> <Button onPress={()=>{}} title="Learn More" color="#841584" accessibilityLabel="Learn more about this purple button" /> </Card> <Card style={{padding: 10, margin: 10, height: 50}}> </Card> </View> ); } 
+
+Object
+<Image source={assets.logo} resizeMode="cover/contain" style=> 
+
+<TouchableOpacity onpress= style=> 
+
+<TextInput placeholder="" style={} value={} onChangeText={}> 
+
+Fonts
+Donwload file .ttf taro di folder asset/fonts
+Buat file react-native.config.js :
+module.exports = {
+   project: {
+      ios: {},
+      android: {},
+   },
+   assets : ["./assets/fonts/"],
+}
+Style : fontFamily: 
+
+Colors
+buat file di /assets/colors/color.js :
+const colors = {
+   background: '#F9F9FB',
+   textDark: '#313234',
+}
+export default colors;
+import colors from './assets/colors/colors'; 
+
+JsonData
+Disimpan di assets/data/data.js 
+
+Object Menu kecil atas
+import Feather from 'react-native-vector-icons/Feather'
+Feather.loadFont();
+<Feather name="menu" size= color=> 
+
+Object search
+<Feather name="search" > 
+
+Form Validation
+npm install 'react-native-form-validator' --save
+import ValidationComponent from 'react-native-form-validator'; 
+
+_onSubmit() { 
+this.validate({ name: {minlength:3, maxlength:7, required: true}, email: {email: true}, number: {numbers: true}, date: {date: 'YYYY-MM-DD'} }); } 
+
+PROJECT Food 
+
+npm install react-native-google-places-autocomplete --save
+npm install react-native-vector-icons
+import IonIcons from "react-native-vector-icons/Ionicons";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5"; 
+
+<GooglePlacesAutocomplete 
+query={{ key: "APIKEY" }}
+onPress={(data, details = null) => { const citytmp = data.description.split(",")[0]; setCity(citytmp); }}
+placeholder='Search' styles={{textInput:{}, textInputContainer: {} renderLeftButton={()=> (<View style={{}}><Ionicons name="location-sharp" size={24}/></View>)} renderRightButton={()=> (<View style={{}}><AntDesign name="clockcircle" size={11}/><Text>Search<\Text></View>) }}> 
+
+Google Api Key = ke console.cloud.google.com, crete project, trus di sebelah kiri pilih API and Service trus pilih Place Api, trus di sebelah kiri pilih credentials. 
+
+const Yelp_Api = "xxx";
+const getRestoFromYelp = () => {
+   const yepurl ='https://api.yelp.com/v3/businesses/search?term=restaurant&location=${city}';
+   
+    const apiOptions = {
+        headers: {
+           Authorization: 'Bearer ${Yelp_Api}',
+        }
+    } 
+
+    return fetch(yepurl,apiOptions).then((res)=> res.json()).then((json)=>setVar(json.businesses));
+} 
+
+<FontAwesome5 name={home/search/shopping-bag/receipt/user} size={25} style={} /> 
+
+React redux
+Npm install react-redux
+Buat folder redux, lalu subfolder reducers, buat file cartReducers.js dan index.js di subfolder reducers, buat store.js di folder redux. 
+
+di navigation.js tambahkan :
+<ReduxProvider store={store}>
+   <NavigationContainer>
+       <Stack.Navigatot>
+</ReduxProvider>
+import { Provider as ReduxProvider} from "react-redux";
+import configureStore from "./redux/store";
+const store = configureStore(); 
+
+Di halaman yg akan menggunakan react-redux:
+import {useDispatch} from "react-redux"; 
+
+const dispatch = useDispatch();
+const selectItem = (item) =>  
+    dispatch({
+        type: "ADD_TO_CART",
+        payload: { ...item, restaurantName: xx},
+    }) //method ini dipanggil di dlm halaman tsb
+
+
+Di halaman viewcart.js(total harga):
+import {useSelector} from "react-redux"; 
+
+const items = useSelector((state)=>state.cartreducer.selectedItems.items);
+const total = items.map((item)=>Number(item.price.replace("$",""))).reduce((total,price)=>total+price,0);
+const totalUSD = total.toLocaleString("en",{ style : "currency", currency: "USD" });

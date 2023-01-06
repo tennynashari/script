@@ -1,0 +1,145 @@
+HTML
+1. Div, span, strong, small, br, hr, section, header, footer
+2. Table colspan, rowspan
+3. Form, label
+     Input type=text/email/password/submit/file/hidden/checkbox checked id beda/radio id sama/checkbox role="switch"/range min max/, select option value selected, 
+     label for=id1 class="form-label", input type="" id="id1" aria-describedby="id2" placeholder/disable/readonly/required, div id="id1" class="form-text"
+File => <form action="" method="" enctype="multipart/form-data">
+4. A href
+5. Ul-li
+6. Image and Video
+7. <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" /> 
+
+CSS
+Class . , ID #, character symbol &laquo, .class elementunder, 
+
+1. Width, height, align
+     Width : 100px; width:50%;height: 100vh;
+     max-width: 100%;height:auto;
+     text-align: center; -> align elemen dalem
+     float: ; -> align elemen luar
+     margin: auto; -> align elemen luar
+2. Color, background
+     color: #fff;
+     background: #009688 repeat position
+     background: transparent;
+     background-color : green;
+     background-image : url("");
+     background-image: linear-gradient(rgba(0,0,0,0.75), rgba()),url();
+     background-size: cover;
+     background-position: center;
+     opacity : color; background-repeat
+3. Margin, border, padding, outline
+    Border : 3px solid #xxxxxx, border-width,border-style,border-color
+    border-radius:25px
+    margin: auto (center)
+    margin top right bottom left;
+    margin top right&left bottom;
+    margin top&bottom right&left;
+    padding-left/bottom, margin-right/left: auto
+4. Text
+     font-size, font-family,font-style, font-weight:100;font-weight:bold;letter-spacing:1;text-transform: uppercase;
+5. Position -> static, fix, relativ, absolut, sticky set top, bottom, left, right
+6. Display : inline, block, inline-block, grid
+    Display:flex; flex-direction: column,row,column-reverse;flex-wrap:wrap,nowrap,wrap-reverse;justify-content:center, flex-start, flex-end, space-around, space-between; align-item:center, flex-start, flex-end,stretch,align-content:space-between,space-around, stretch
+Display flex tampilan ke samping
+7. Transform
+     transform : translate(10px,10px) rotate,scaleX,scaleY,scale,skewX,skewY,skew,matrix, translate3d, translateX,translateY,translateZ,scale3d,rotate3d
+8. Transition
+     transition : width 2s;
+9. Image
+     object-fit:cover; fill,contain,none,scale-down
+     object-position:80% 20%;
+     z-index : -1 (urutan tumpukan gambar)
+10. Column
+       column-count:3, column-gap
+11. Box-sizing : border-box; 
+
+12. Pagination
+<Div class="pagination">
+   <a href>
+.pagination{display:inline-block}
+.pagination a{float:left;}
+.pagination a.active{}
+.pagination a:hover:not(.active){}
+Di semua page 
+
+13. Ul Li
+Ul li style
+list-style: none;
+display: inline-block;
+margin: 0 20px; 
+
+Ul li a style
+text-decoration: none;
+color: #fff;
+text-transform: uppercase; 
+
+14. Lain2
+Overflow : hidden/visible/scroll/auto;(mengatur content yang terlalu besar dalam satu area)
+cursor: ; 
+
+15. Selector
+.xx:after (posisi stlh item css)
+.xx:first-child( item pertama)
+16.Sidebar
+.sidebar{
+  height:100%;
+  position: fixed;
+  z-index:1;
+  top:0
+  left:0
+  overflow-x: hidden;
+  padding-top: 20px
+}
+.sidebar a{
+  padding: 6px 8 6 16;
+  text-decoration: none;
+  font-size
+  color: #818181
+  display: block;
+}
+.sidebar a:hover{
+  color:#f1f1f1;
+}
+.main{margin-left:160px; padding: 0px 10;} 
+
+Bootstrap
+Npm install bootstrap@5.2.0 
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script> 
+
+1. Container, row, row justify-content-md-center, row align-items-start/center/end, row-cols-2(jumlah 2 colom dlm satu row), row-cols-auto, row gx-5(jarak horizontal antar col), row gy-5(jarak vertical antar col), row g-2, col, col align-self-start/center/end, col-5, col-md-5, col-md-auto, col order-5/first/last(urutan), col offset-4, col offset-md-4, dsb. lg, md, sm. col bisa dipakai langsung di div dan elemen lain. 
+     w-100(width 100%), w-auto, w-full, h-50
+     Text-center, mx-auto, float-start, float-end, float-none, align-item-center, justify-content-between/end, float-end/start/none(posisi object itu sendiri) 
+
+2. bg-light, bg-dark, btn-primary, btn-link,btn-close, text-warning, text-white, border-primary, bg-opacity-10, bg-gray, text-white, dll. Warning, info, danger, success, primary,secondary, dark
+3. border, margin, mb-3, mr-4, p-2, border-0,border-top,border-bottom-0, rounded, rounded-end/top/bottom/start/circle/pill, dsb. Top/bottom/start/end
+4. h1,h2,h3,dst display-1,display-2, dst. lead, text-start, text-center/left/right, text-end, badge, text-wrap, text-uppercase, text-lowercase, text-capitalize, fs-1(font size), fw-bold, fw-normal, fw-light(ketebalan), fst-italic(miring), fst-normal, text-muted, text-nowrap, font-weight-bold/normal/light
+5. position-static, position absolute,  position-relative top 0 start 0. Top/start/bottom/end
+6. d-inline, d-block, d-inline-block,  d-none(hidden), d-flex flex-row/column-reverse pasangan dgn justify-content
+7. Form : form-label, form-control, col-form-label, form-text, div form-check/form-check-inline input form-check-input label form-check-label(buat checkbox,radio dan switch), form-select, form-select-lg/sm, form-range. Layout form dgn div row col
+alert, alert-primary, badge(membentuk kotak di sekitarnya)
+8. <i class="menu-item menu-icon">, table-responsive, table, table-light, table-border-bottom-0, table-dark, table-sm, thead-light, thead, table-striped, table-bordered, table-borderless, hover:bg-gray-600, focus:bg-gray-800
+9. rounded-circle, img-thumbnail 
+
+Bootstrap sneat(admin template)
+div card div card-body p card-title p card-text 
+
+div id="a" carousel slide data-bs-ride="carousel" div carousel-inner div carousel-item active enddiv button carousel-control-prev/next data-bs-target="a" data-bs-slide="prev/next" span carousel-control-next/prev span visually-hidden 
+
+Div dropdown button dropdown-toggle data-bs-toggle="dropdown" aria-expanded="false" buttonname endbutton ul dropdown-menu li a dropdown-item enddiv 
+
+Ul list-group li list-group-item
+Div modal tabindex="-1" div modal-dialog div modal-content div modal-header div modal-title enddiv modal-title button btn-close data-bs-dismiss="modal" aria-label="close" endbutton div modal-body enddiv div modal-footer data-bs-dismiss="modal" close endbutton button save change endbutton 
+
+Nav navbar navbar-expand div container-fluid a href navbar-brand enda button navbar-toggler data-bs-toggle="collapse" data-bs-target=navbarSC" aria-control="navbarSC" aria-expanded="false" aria-label="Toggle navigation" span navbar-toggle-icon endspan endbutton div collapse navbar-collapse id="navbarSC" ul navbar-nav li nav-item a nav-link active aria-current="page" enda endli li nav-item dropdown a href nav-link dropdown-toggle role="button" data-bs-toggle="dropdown" aria-expanded="false" dropdown enda ul dropdown-menu li a href dropdown-item/divider enda endli endul 
+
+Ul nav nav-tabs/pills li nav-item a href nav-link enda endli endul 
+
+nav aria-label="Page navigation example" ul pagination li page-item a href page-link enda endli endul 
+
+Scrollspy(navbar+scroll effect), sidebar

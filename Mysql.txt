@@ -1,0 +1,43 @@
+mysql -u root -p 
+
+mysql> create database reactdb; 
+
+mysql> use reactdb; 
+
+Show databases; 
+
+Show tables; 
+
+Use mysql; 
+
+mysql> CREATE TABLE `contacts` ( `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, `name` varchar(100) NOT NULL, `email` varchar(100) NOT NULL, `city` varchar(100), `country` varchar(100), `job` varchar(100) ) ENGINE=InnoDB DEFAULT CHARSET=latin1; 
+
+Update 
+
+$sql = "UPDATE tabel_company SET name='".$newCompany."',address='" .$addresscompany. "',phone='" .$phonecompany. "',area='" .$areacompany. "',level='" .$interestcompany. "',sales='" .$salescompany. "',industri='" .$industrycompany. "' WHERE name='" . $company. "' ";
+    
+   $conn->query($sql); 
+
+Delete 
+
+$sql = "DELETE FROM tabel_follup WHERE company='" . $company. "' ";
+    
+    $conn->query($sql); 
+
+Insert 
+
+  $sql = "INSERT INTO tabel_follup (company,date,inputby,remarks)
+       VALUES ('" .$company. "', '" .$datefol. "', '" .$name. "', '" .$remarks. "' )";
+    
+   $conn->query($sql); 
+
+?> 
+
+Mysql format date sesuai dg form html input type date 
+
+select tabel_pic.email as 'Email Address', tabel_pic.nama as 'First Name', tabel_company.name as 'Last Name', tabel_company.area as 'Address', tabel_pic.phone as 'Phone Number'
+from tabel_company
+inner join tabel_pic on tabel_company.name=tabel_pic.company
+where tabel_company.area = 'surabaya'; 
+
+Limit, where like=" "

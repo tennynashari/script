@@ -1,0 +1,213 @@
+vi bestdayever.sh 
+
+#! /bin/bash
+name = "tenny"
+echo "good morning $name !!"
+sleep 1
+echo "you're looking good today" 
+
+chmod +x bestdayever.sh 
+
+./bestdayever.sh 
+
+Command
+echo "what's your name ?"
+read name 
+
+name=$1
+./bestdayever.sh tenny 
+
+user=$(whoami) -> dari command linux
+whereami=$(pwd) 
+
+read -p "Enter your name:" name
+if [ "$name" == "tenny" ]
+    then echo "xxx"
+       elif [ "$name" == "teten" ]
+          then echo "yyy"
+             else echo "zzz"
+fi 
+
+Num1=3
+Num2=5
+if [ "$num1" -gt "$num2" ]
+    then echo "$num1 is greater than $num2
+fi 
+
+File="test.txt"
+if [ -f "$File" ]
+    then echo "$File is a file"
+        else "$File is not a file"
+fi
+
+
+
+File="test.txt"
+if [ -e "$File" ]
+    then echo "$File exist" 
+
+read -p "are you hungry?" Answer
+case "$Answer" in
+   [yY] | [yY] [eE] [sS])
+        echo "xxx";;
+   [nN] | [nN] [oO])
+        echo "yyy" ;;
+   *)
+       echo "please enter yes or no" 
+       ;;
+esac
+
+
+
+
+
+Names = "tenny teten"
+for Name in $Names
+    do
+        echo "Hello $Names"
+done 
+
+Files = $(ls *.txt)
+New="new"
+for File in $Files
+    do
+        echo "Renaming $File to new-$File"
+        mv $File $New-$File
+done 
+
+Line=1
+while read -r Current_line
+   do
+      echo "$Line: $Current_line"
+      ((Line++))
+done < "./new-1.txt" 
+
+function sayHello() {
+   echo "Hello World"
+}
+sayHello 
+
+function greet() {
+   echo "Hello, I am $1 and i am $2"
+}
+greet "Brad" "36" 
+
+mkdir hello
+touch "helloworld.txt"
+echo "Hello World" >> "helloworld.txt"
+echo "created helloworld.txt" 
+
+cat > file.txt
+
+
+
+age=10
+if ["$age" -gt 18] && ["$age" -lt 40]
+then echo "age is correct"
+else echo "age ia not correct"
+fi 
+
+age=30
+if ["$age" -gt 18] || ["$age" -lt 40]
+then echo "age is correct"
+else echo "age ia not correct"
+fi 
+
+for i in 1 2 3 4 5
+do
+   echo $i
+done 
+
+for i in {1..5}
+do
+   echo $i
+done
+
+
+for i in {0..20..2} //start..ending..increment
+do
+   echo $i
+done 
+
+for (( i=0;i<5;i++ ))
+do
+   if [$i -eq 3]
+       then
+           continue
+   fi
+   echo $i
+done 
+
+while read line
+do
+   echo "$line"
+done < "${1:-/dev/stdin}" //inputan dr user
+
+
+
+Export script to another script
+helloscript.sh :
+Message="hello"
+export Message
+./secondscript.sh 
+
+secondscript.sh :
+echo "The message from helloscript : $Message" 
+
+File and directory
+echo "Enter directory :"
+read direct
+if [ -d "$direct" ]
+then echo "$direct exists"
+fi 
+
+echo "Enter filename to create:"
+read filename
+touch $filename 
+
+echo "Enter filename in which you want to append :"
+read filename
+if [[ -f "$filename" ]]
+then
+   echo "Enter text you want to append : "
+   read filetext
+   echo "$filetext" >> $filename
+fi 
+
+echo "Enter filename which you want to read :"
+read filename
+if [[ -f "$filename" ]]
+then
+   while IFS= read -r line
+   do
+       echo "$line"
+   done < $filename
+fi
+
+
+Sed, awk, find, tar
+sed -i 's/regex/replace/g' file
+contoh : sed 's/,/./g' file.csv 
+
+awk -F " " ' BEGIN { print "Date\t\tPrice\t\tVolume }; NR > 1 { print $1 "\t" $2 "\t" $7 } ' file.csv 
+
+touch awk.command 
+BEGIN {
+   FS=" ";
+   OFS="\t\t";
+   print "Date\t\tPrice\t\tVolume"
+   print "----\t\t----\t\t----"
+};
+{
+    print $1,  $2,   $7;
+};
+awk -f awk.command file.csv
+
+
+find ./ -type f -name '*.txt'
+find ./ -type f -perm 775 -user tenny
+find ./Pictures/ -type f -name '*.png' -exec cp '{}' ~/pictures-backup/ \; 
+
+tar cvf pic-archive.tar ./* -> buat file tar
+gzip pic-archive.tar -> extract file tar
+tar xvf pic-archive.tar -C extration/ -> extract tar

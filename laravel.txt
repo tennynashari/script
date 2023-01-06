@@ -1,0 +1,289 @@
+Composer create-project laravel/laravel xxx 
+
+composer create-project laravel/laravel xxx
+php artisan serve
+Extension vis code : laravel snippers, laravel blade 
+
+Model -> app/
+Controller -> app/http
+Migration -> database/migration
+Route -> routes
+view -> resources 
+
+Php artisan make:model -m --seed, make:controller, make:migration, make migrate, php artisan db:seed --class=ProductSeeder 
+
+Model diimport di controller, use model, konek ke database yg dicreate lewat make:migration berdasarkan nama, di model primary key dan tabel bisa diset. 
+
+Di controller ada Models.
+Eloquent
+$model = Model::create(['name' => $request->name])
+php artisan make:controller Admin/Dashboard
+return redirect()->route('routename')->with('var','isi');
+return view(' ', compact('var'))
+<a href ={{ route('register') }}>
+<a href ={{ url('/register') }}>
+Model::insert([
+  'name' => tolowercase(str_replace(' ', '-',  $request->name))
+])
+$model = model::latest()->get()
+$model = model::find($id):
+Model::findorfail($id)->update{[
+   'name' => $request->name
+]}
+Model::findorfail($id)->delete()
+$model = Model::where('id', $request->id)->value('name');
+$model = Model::where('id', $request->id)->increment('count',1);
+Model::where('column', 'value ')->withCount('column')->get()/first()
+Model::orderBy('column') 
+
+$file = $request->file('namafile')
+$namafile = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
+$request->namafile->move(public_path('upload'), $namafile);
+$img_url = 'upload/' . $namafile 
+
+$request->has('name')
+$request->filled('name') 
+
+Di routing
+Route::get('/link',controller@method)->middleware(['auth', 'role:user'])->name('dashboard') 
+
+route::controller(DashboardController::class)->group(function(){
+  Route::get('/xxx', 'index')->name('name');
+  Route::get('/yyy', 'index1');
+} 
+
+Route::midlleware(['auth', 'role:admin'])->function(){      } 
+
+Route::post 
+
+function add, store, edit, update 
+
+@yield(),@extend(),@section,@endsection,@include, @if, @php, @foreach ($tasks as $task) 
+
+xxx.blade.php
+import asset di laravel : <link rel="stylesheet" href="{{ asset('dashboard/assets/vendor.css'}}" />
+a href di laravel : <a href="{{ route ('routename', $variabel) }} >
+<form action="{{ route('nameroute') }}" method="POST"> @csrf 
+
+@if(session()->has('var'))
+    <div class="alert alert-success" >
+       {{ session()->get('var') }}
+
+
+Di migration
+$table->string('code', 30)->primary(); 
+$table->foreignId('state_id')->constrained()->cascadeOnDelete()
+$table->string()>default(0); 
+
+Di model
+protected $table = 'DomainRelatedSettings';
+protected $primaryKey = 'verification_token';
+protected $fillable
+public function state(){
+   $this->belongsTo/hasMany(state::class);
+} -> sesuai foreign key 
+
+Install di Centos
+curl -sS https://getcomposer.org/installer | sudo php -- -- install-dir=/usr/bin --filename=compser 
+
+Install di rocky
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+chmod +x /usr/local/bin/composer
+cd var/www/html
+composer create ...
+chown -R nginx:nginx /var/www/html/laravelsite/storage/
+chown -R nginx:nginx /var/www/html/laravelsite/bootstrap/cache
+chmod -R 777 /var/www/html/laravelsite/storage/ 
+
+chmod -R 775 /var/www/html/laravelsite/bootstrap/cache
+composer
+set di root directory nginx/apache
+yum install -y unzip
+composer create-project laravel/laravel .
+chmod -R nginx:root /var/www/laravel
+chmod 755 /var/www/laravel/storage 
+
+sestatus
+yum -y install policycoreutils-phyton 
+
+Form validation
+$validatedData = $request->validate([
+'title' => ['required', 'unique:posts', 'max:255'],
+'body' => ['required'],
+]);
+@if ($errors->any())
+     <div class="alert alert-danger>
+         @foreach ($errors as $error)
+              <p>{{ $error }} </p 
+
+@if ($errors->any())
+<div class="alert alert-danger">
+<ul>
+@foreach ($errors->all() as $error)
+<li>{{ $error }}</li>
+@endforeach
+</ul>
+</div>
+@endif 
+
+Install breeze -> user authentication
+composer require laravel/breeze --dev
+php artisan breeze:install
+npm install
+npm run dev
+php artisan migrate 
+
+App->http->controller->auth:
+RegisterUserController.php 
+
+Install filament
+composer require filament/filament:"^2.0"
+php artisan migrate
+php artisan make:filament-user
+php artisan make:filament-resource Country(sesuai Models)
+App->filament/resources 
+
+di filament/resources :
+ada models -> protected static ?string $model = State::class ;
+use Filament\Forms\Components\TextInput 
+
+function form(Form $form): Form { return $form->schema([Card::make()->schema([TextInput::make('name')]) ]) } -> sesuai Models 
+
+function table(Table $table): Table { return $table->column([TextColumn::make('author.name')->sortable()->searchable(), TextColumn::make('created_at')->datetime()])->filters([]) } 
+
+Filament\Forms\Components\TextInput
+function form(Form $form): Form { return $form->schema([Card::make()->schema([Select::make('country_id')->relationship('country','name'), TextInput::make('name')->required()]) ]) } -> sesuai Models 
+
+DatePicker::make('birth_date')->required() 
+
+function table(Table $table): Table { return $table->column([TextColumn::make('author.name')->sortable()->searchable(), TextColumn::make('created_at')->datetime()])->filters([])->filters([SelectFilter::make('departement')->relationship('departement','name')])->actions([Tables\Actions\EditAction::make(),])->bulkActions([Tables\Actions\DeleteBulkAction::make(),])} 
+
+function form(Form $form): Form { return $form->schema([Card::make()->schema([Select::make('country_id')->label('Country')->options(Country::all()->pluck('name','id')->toArray())->reactive()->afterStateUpdated(fn (callable $set) => $set('state_id'),null)),
+Select::make('state_id')->label('State')->options(function (callable $get){
+$country = Country::find($get('country_id'));
+return $country->states->pluck('name','id');})->reactive()->afterStateUpdated(fn (callable $set) => $set('city_id', null)); ]) 
+
+Password
+{ return $form->schema([Card::make()->schema([TextInput::make('name')->required(), TextInput::make('password')->password()->required(fn (Page $livewire): bool => $livewire instanceof CreateRecord)->minLenght(8)->same('passwordConfirmation')->dehydrated(fn ($state) => filled($state))->dehydrateStateUsing(fn ($state) => Hash::make($state)) ]), TextInput::make('passwordConfirmation')->password()->label('Password Confirmation')->required(fn (Page $livewire) : bool => $livewire instanceof CreateRecord)->minLenght(8)->dehydrated(false) ]) } 
+
+
+
+
+Set fillament sidebar group
+Di resource fillament atas -> protected static ?string $navigationGroup = 'nama grup' 
+
+Set Relation antar filament resources
+php artisan make:filament-relation-manager namaResources namaRelation namaAtribut
+Kemudian isi di function getRelations di class filament resources:
+return {
+   namaRelationManager::class;
+}
+Kemudian edit file php terkait di folder RelationManagers, masukkan namaRelation dan namaAtribut
+
+
+
+Filament widget
+php artisan make:filament-widget NamaStatsOverview --stats-overview , kemudian isi nama filament resource, kemudian isi function getWidget() :
+return {
+   NamaStatsOverview::class;
+}
+Kemudian akan membuat file php(ada models di sini) di folder widget di filament resource, edit function getCards() : 
+return {
+   Card::make('nama widget', 'isi widget'), 
+   Card::make('All Employee', 'Employee::all()->count()), 
+} 
+
+Export filament config
+php artisan vendor:publish --tag=filament-translations, kemudian di folder config akan muncul file filament.php, edit di section 'widget' => 'register'=> [NamaStatsOverview::class] 
+
+php artisan make::resource NamaResource, 
+kemudian akan membuat file resources .php di folder app->http->Resources
+kemudian edit api.php :
+Route::get('employees', function(){
+   $employees = Employee::orderBy('first_name')->get()
+return NamaResources::collection($employee);
+} 
+
+E commerce project 
+
+Install laratrust
+composer require santigarcor/laratrust
+php artisan vendor:publish --tag="laratrust"
+php artisan config:clear
+php artisan laratrust:setup
+composer dump-autoload
+php artisan migrate
+php artisan laratrust:seeder 
+
+php artisan vendor:publish --tag="laratrust-seeder"
+composer dump-autoload
+database->seeders->DatabaseSeeder.php, LaratrustSeeder.php
+Di DatabaseSeeder.php :
+public function run(){
+$this->call(LaratrustSeeeder::class);
+}
+config di config->laratrust_seeder.php
+php artisan migrate
+php artisan db:seed
+
+
+
+Paypal Integration 
+
+1. Buat Rest Api App di akun paypal bagian My Apps and Credentials, kemudian dapatkan credentialsnya
+2. Isi credentials yg sudah didapatkan di file .env (id dan secret)
+3. Buat model, controller dan tabel(id, payment id, payer id, payer email, amount, currency, dll) payment
+4. composer require league/omnipay omnipay/paypal
+5. php artisan make:controller PaymentController
+6. Di payment controller :
+use Omnipay\Omnipay
+public function __construct() {
+   $this->gateway = Omnipay::create('PayPal_Rest');
+   $this->gateway->setClientId(env('PAYPAL_CLIENT_ID'));
+   $this->gateway->setSecret(env('PAYPAL_CLIENT_SECRET'));
+$this->gateway->setTestMode(true);
+}
+public function pay(Request $request){
+  try {
+     $response = $this->gateway->purchase(array( 
+      'amount' => $request->amount,
+      'currency' => env('PAYPAL_CURRENCY'),
+      'returnUrl' => url('success'),
+      'cancelUrl' => url('error')
+   ))->send(); 
+
+   if ($response->isRedirect()){$response->redirect();}
+   else { return $response->getMessage(); }
+  }
+} 
+
+public function success(Request $request){
+   if ($request->input('paymentId') && $request->input('PayerID')) {
+    $transaction = $this->gateway->completePurchase(array(
+      'payer_id' => $request->input('PayerID'),
+      'transactionReference => $request->input('paymentId') )); 
+
+$response = $transaction-> send(); 
+
+if ($response->isSuccessfull()) {
+   $arr = $response->getData(); 
+
+   $payment = new Payment();
+   $payment->payment_id = $arr['id'];
+   payer_id = $arr['payer']['payer_info]['payer_id'];
+   payer_email = $arr['payer']['payer_info]['payer_email'];
+   amount = $arr['transaction'][0]['amount']['total];
+   currency = env('PAYPAL_CURRENCY');
+   payment_status = $arr['state']; 
+
+   $payment->save; 
+
+   return "Payment is succesfull";
+}
+
+
+}
+
+
+}

@@ -1,0 +1,52 @@
+npm install create-react-app
+npm cache clean force
+create-react-app xxx 
+
+Set port set di package.json edit jadi "start": "PORT=3006 react-scripts start" 
+
+Index.html, index.js, app.js, app.css inside src folder 
+
+Npm init -> create package.json, scripts->start :penting 
+
+Cookies
+npm install react-cookie 
+
+import React from "react"; import ReactDOM from "react-dom"; import { CookiesProvider } from "react-cookie"; import App from "./App"; ReactDOM.render(    <CookiesProvider>       <App />    </CookiesProvider>,    document.getElementById('root') ); 
+
+const [cookies, setCookie] = useCookies(['user']);    const handle = () => {       setCookie('Name', name, { path: '/' });       setCookie('Password', pwd, { path: '/' });    }; 
+
+cookies.Name 
+
+Router
+Npm install react-router-dom
+Import browserrouter, routes, route 
+
+<BrowserRouter>
+  <Routes>
+         <Route path="" element="" /> 
+
+  </Routes>
+</BrowserRouter> 
+
+Fontawesome
+npm i --save @fortawesome/fontawesome-svg-core
+# Free icons styles
+npm i --save @fortawesome/free-solid-svg-icons
+npm i --save @fortawesome/free-regular-svg-icons
+npm i --save @fortawesome/react-fontawesome@latest 
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used 
+
+<FontAwesomeIcon icon={solid('user-secret')} />
+<FontAwesomeIcon icon={regular('coffee')} />
+<FontAwesomeIcon icon={brands('twitter')} /> 
+
+Bootstrap
+npm install bootstap
+Index.js -> import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css' 
+
+<button className="btn btn-primary">Submit</button>
