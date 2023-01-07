@@ -1,3 +1,5 @@
+vs code extension : Highlight Matching Tag, auto close tag
+
 Restaurant Project 
 
 download nodejs, node -v, npm -v
