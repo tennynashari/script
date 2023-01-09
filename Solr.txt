@@ -18,7 +18,10 @@ ss -altnp | grep 8983
 firewall-cmd --add-port=8983/tcp --permanent
 firewall-cmd --reload 
 
-Create test collection solr -> su - solr -c "/opt/solr/bin/solr create -c testcollection -n data_driven_schema_configs" 
+BUat collection di web based -> buat core dulu , kasih namacorecollection, buat folder namacorecollection di directory /root/server/solr, buat subfolder conf dan data, copy basic config di folder /root/server/solr/configsets/basic_config/conf(ada solrconfig.xml) ke subfolder namacorecollection/conf,
+
+Create test collection solr di cmd di folder root/bin -> su - solr -c "/opt/solr/bin/solr create -c testcollection -n data_driven_schema_configs" atau solr create -c collection
+delete collection di cmd folder root/bin -> solr delete -c namacollection
 
 http://ipserver:8983
 Harus ada apache 
