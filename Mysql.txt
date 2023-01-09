@@ -41,3 +41,16 @@ inner join tabel_pic on tabel_company.name=tabel_pic.company
 where tabel_company.area = 'surabaya'; 
 
 Limit, where like=" "
+
+FIX MYSQL XAMP
+Fixing the MySQL server not starting in XAMPP is done by reverting back the data files pre-issue.
+
+Navigate to your XAMPP MySQL directory (C:\xampp\mysql).
+
+Create a new folder called FIX_BACKUP.
+
+Copy C:\xampp\mysql\backup and C:\xampp\mysql\data into C:\xampp\mysql\FIX_BACKUP.
+
+Paste the contents of C:\xampp\mysql\backup into C:\xampp\mysql\data overwriting all the files.
+
+Finally copy the ibdata1 file from C:\xampp\mysql\FIX_BACKUP\data into C:\xampp\mysql\data overwriting the file.

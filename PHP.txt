@@ -46,6 +46,7 @@ Listen 8050 NameVirtualHost *:8050 <VirtualHost *:8050> ServerName myproject Ser
 
 if (empty($_POST['fname']) && empty($_POST['email'])) die(); 
 
+JSON :
 <?php 
 
 header('Access-Control-Allow-Origin: *'); 
@@ -60,36 +61,9 @@ $rest_json = file_get_contents("php://input");
 
 $_POST = json_decode($rest_json, true); 
 
-Database2 
+?>
 
-<?php
-$servername = "localhost";
-$username = "username";
-$password = "password";
-$dbname = "myDB"; 
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-} 
-
-$sql = "SELECT id, firstname, lastname FROM MyGuests";
-$result = $conn->query($sql); 
-
-if ($result->num_rows > 0) {
-  // output data of each row
-  while($row = $result->fetch_assoc()) {
-    echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
-  }
-} else {
-  echo "0 results";
-}
-$conn->close();
-?> 
-
-Database3
+PHP MYSQL 1 (NOT ECOGREEN)
 <?php
 $servername = "localhost";
 $username = "username";
@@ -118,7 +92,7 @@ if (mysqli_num_rows($result) > 0) {
 mysqli_close($conn);
 ?> 
 
-JSon 
+PHP MYSQL SELECT (Ecogreen)
 
 <?php
     
@@ -265,3 +239,119 @@ $user = Auth::user();
 $id = Auth::id(); 
 
 @if(auth()->user()->some_column)
+
+PHP MYSQL JSON (Ecogreen)
+
+<?php
+    
+    $servername   = "ecogreen.id";
+    $username     = "ecogreen_ectapps";
+    $password     = "Ecoindo0123";
+    $dbname       = "ecogreen_ectapps";
+    
+    //$data = array("url"=> "x");
+    $data = [];
+     
+   // Create connection
+   $conn = new mysqli($servername, $username, $password,$dbname);
+
+   // Check connection
+   if ($conn->connect_error) {
+       die("Connection failed: " . $conn->connect_error);
+      }
+
+  $company = $_GET['company'];
+
+   $sql = "SELECT * FROM tabel_company WHERE company='" .$company. "'"; 
+   
+   //$sql = "SELECT url FROM datadialux WHERE tipelampu='LVD 80W' AND tinggi //='6' AND pitcha='4' AND pitchb='4'";
+   
+   $result = $conn->query($sql);
+
+   if (mysqli_num_rows($result) > 0) {
+       // output data of each row
+       while($row = mysqli_fetch_row($result)) {
+            $data[] = ['company' => $row[1],'email' => $row[2],'address' => $row[3],'production' => $row[4],'area' => $row[5],'phone' => $row[6],'layout' => $row[7],'status' => $row[8]]; 
+        }
+    } else {
+        echo "0 results";
+    }
+
+    $conn->close();
+   
+    
+    echo json_encode($data);
+    
+?>
+
+PHP MYSQL INPUT AND UPDATE (Ecogreen)
+<?php
+  
+  //section untuk input company
+  if (isset($tipe)) {
+      
+     $servername   = "localhost";
+     $username     = "ecogreen_surveyformb";
+     $password     = "Ecoindo0123";
+     $dbname       = "ecogreen_surveyform";
+     
+     $dateinput= Date("Y-m-d");
+    
+     $conn = new mysqli($servername, $username, $password,$dbname);
+
+     // Check connection
+     if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+        }
+
+     if ($tipe=="addcompany"){
+         $sql = "INSERT INTO tabel_company (name, address,phone, area,level,sales,inputby,dateinput,industri) VALUES ('" .$namecompany. "', '" .$addresscompany. "', '" .$phonecompany. "', '" .$areacompany. "', '" .$interestcompany. "','" .$salescompany. "','" .$name. "','" .$dateinput. "','" .$industrycompany. "')";
+     }
+     else if ($tipe=="editcompany"){
+        $sql = "UPDATE tabel_company SET name='" .$namecompany. "',address='" .$addresscompany. "',phone='" .$phonecompany. "',area='" .$areacompany. "',level='" .$interestcompany. "',sales='" .$salescompany. "' WHERE name='" . $namecompany. "' ";
+     }
+   
+     $conn->query($sql);
+
+     $conn->close(); 
+      
+  }
+    
+?>
+
+PHP MYSQL DELETE (Ecogreen)
+<?php
+    
+   session_start();
+   $status = $_SESSION['status'];
+   $emailuser = $_SESSION["emailuser"];
+   $passworduser = $_SESSION["passworduser"];
+   $name = $_SESSION["name"];
+ 
+   if ($status!="ok"){
+         header("Location: https://ecogreen.id/ectsurveyform/index.php?status=nok");
+    }else {
+    
+    $servername   = "localhost";
+    $username     = "ecogreen_surveyformb";
+    $password     = "Ecoindo0123";
+    $dbname       = "ecogreen_surveyform";
+    
+    $company = $_GET['company'];
+    $date = $_GET['date'];
+    $inputby = $_GET['inputby'];
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+       die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "DELETE FROM tabel_follup WHERE (company ='".$company."' AND date ='".$date."' AND inputby ='".$inputby."') ";
+    
+    $conn->query($sql);
+    
+    }
+    
+?>
