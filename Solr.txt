@@ -23,7 +23,8 @@ BUat collection di web based -> buat core dulu , kasih namacorecollection, buat 
 Create test collection solr di cmd di folder root/bin -> su - solr -c "/opt/solr/bin/solr create -c testcollection -n data_driven_schema_configs" atau solr create -c collection
 delete collection di cmd folder root/bin -> solr delete -c namacollection
 
-file2 solr : root/server/solr/solr.xml, root/server/solr/namacorecollection/conf/solrconfig.xml, root/server/solr/namacorecollection/conf/schema.xml dan root/server/solr/namacorecollection/conf/schema.xml(manage 2 solr)
+file2 solr : root/server/solr/solr.xml, root/server/solr/namacorecollection/conf/solrconfig.xml, root/server/solr/namacorecollection/conf/schema.xml dan root/server/solr/namacorecollection/conf/schema.xml(manage 2 solr).
+schema.xml -> control data insertion, set primary key
 
 index file csv -> set dulu solrconfig.xml dan schema.xml(harus sesuai), lalu upload file.csv di solr->core->document
 
@@ -120,11 +121,8 @@ cd examples
 php -S localhost:8888
 http://localhost:8888/examples -> web server built in php
 
-
-
-
 3. Pakai solarium
-Di folder directory buat composer.json dgn isi :
+Di folder directory buat composer.json(di xampp ada di folder xampp/phpMyAdmin/composer/ca-bundle) dgn isi :
 {
   "require": {
     "solarium/solarium": "3.1.0"
@@ -179,7 +177,7 @@ function htmlFooter()
     echo '</article><br><nav><a href="index.html">Back to Overview</a></nav></body></html>';
 } 
 
-File php utk search query:
+FILE PHP SEARCH QUERY :
 <?php 
 
 require_once(_DIR_.'/init.php'); 
@@ -233,7 +231,7 @@ foreach ($resultset as $document) {
 
 htmlFooter(); 
 
-add data :
+INSERT DATA :
 <?php 
 
 require_once(_DIR_.'/init.php');
