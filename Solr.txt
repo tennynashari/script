@@ -27,6 +27,7 @@ file2 solr : root/server/solr/solr.xml, root/server/solr/namacorecollection/conf
 schema.xml -> control data insertion, set primary key
 
 index file csv -> set dulu solrconfig.xml dan schema.xml(harus sesuai), lalu upload file.csv di solr->core->document
+index file xml -> ./post -c my_core update.xml  (di linux)
 
 http://ipserver:8983
 Harus ada apache 
