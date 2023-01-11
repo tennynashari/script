@@ -61,3 +61,12 @@ subscriber button :
 <div class="g-ytsubscribe" data-channelid="UCZnkvaG5O3NEjqI2r_dHXzQ" data-layout="full" data-count="default"></div>
 
 youtube channel id -> https://www.youtube.com/account_advanced
+
+Twitter
+developer.twitter.com
+https://developer.twitter.com/en/docs/authentication/oauth-1-0a/api-key-and-secret
+https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-tweets
+
+
+
+
