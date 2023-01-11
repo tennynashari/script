@@ -1,0 +1,63 @@
+Instagram API :
+developers.facebook.com
+Api : IGQVJXb25TYkI1aUxYLURVaWVjRkVWU2lhVXN1QjhxY2tlcGdkY3NIdzd2S2VPS0VvVWhJcktHTVMwYnhhLW40Q0pIbEdLQXZA1MVlvNXk0RDF2bjY3Mld4emNVcjRhVzJhaWxKcWZAHa2pFVk1naHlnSgZDZD
+get IG id ->   'https://graph.instagram.com/me?fields=id,username&access_token=IGQVJXb25TYkI1aUxYLURVaWVjRkVWU2lhVXN1QjhxY2tlcGdkY3NIdzd2S2VPS0VvVWhJcktHTVMwYnhhLW40Q0pIbEdLQXZA1MVlvNXk0RDF2bjY3Mld4emNVcjRhVzJhaWxKcWZAHa2pFVk1naHlnSgZDZD'
+get IG media ID -> 'https://graph.instagram.com/media?fields=id,username&access_token=IGQVJXb25TYkI1aUxYLURVaWVjRkVWU2lhVXN1QjhxY2tlcGdkY3NIdzd2S2VPS0VvVWhJcktHTVMwYnhhLW40Q0pIbEdLQXZA1MVlvNXk0RDF2bjY3Mld4emNVcjRhVzJhaWxKcWZAHa2pFVk1naHlnSgZDZD'
+get IG content ->   'https://graph.instagram.com/5194128597354963?fields=id,media_type,media_url,username,timestamp&access_token=IGQVJXb25TYkI1aUxYLURVaWVjRkVWU2lhVXN1QjhxY2tlcGdkY3NIdzd2S2VPS0VvVWhJcktHTVMwYnhhLW40Q0pIbEdLQXZA1MVlvNXk0RDF2bjY3Mld4emNVcjRhVzJhaWxKcWZAHa2pFVk1naHlnSgZDZD'
+
+Google Maps:
+API : AIzaSyDjEJhyr9-uNF0lPfv4-cVYcDC7fypNlls
+html : <html>
+  <head>
+    <title>Simple Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script type="module" src="./index.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <!-- 
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+    -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+      defer
+    ></script>
+  </body>
+</html>
+javascript : let map;
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 8,
+  });
+}
+
+window.initMap = initMap;
+
+Youtube API :
+api : AIzaSyArfAoXBWv_fwPnvo8nQtmunG8rxZicRLQ
+https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=AIzaSyArfAoXBWv_fwPnvo8nQtmunG8rxZicRLQ
+     &part=snippet,contentDetails,statistics,status
+
+<iframe id="player" type="text/html" width="640" height="390"
+  src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
+  frameborder="0"></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MMf2Llk3PjU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s
+http://www.youtube.com/embed/0zM3nApSvMg?rel=0
+
+subscriber button : 
+<script src="https://apis.google.com/js/platform.js"></script>
+
+<div class="g-ytsubscribe" data-channelid="UCZnkvaG5O3NEjqI2r_dHXzQ" data-layout="full" data-count="default"></div>
+
+youtube channel id -> https://www.youtube.com/account_advanced
