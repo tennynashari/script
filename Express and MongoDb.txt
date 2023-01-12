@@ -1,0 +1,141 @@
+npm init di folder project -> create file package.json
+
+update file package.json -> tambahkan di scripts -> "start":"node server/index.js", "dev":"nodemon server/index.js"
+
+npm install express cors body=parser mongodb
+npm install -D nodemon
+
+di dalam folder project buat folder server, di dalam folder server buat file : index.js dan file routes/api/posts.js
+
+folder project express/mongodb satu folder dengan folder project vuejs
+
+npm run dev
+
+index.js :
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const app = express();
+
+const posts = require('./routes/api/posts');
+app.use('/api/posts',posts);
+
+app.use(bodyParser.json());
+app.use(cors());
+
+const port = process.env.PORT || 5000;
+
+app.listen(port, ()=> console.log('Server started on port ${port}'))
+
+posts.js :
+const express = require('express');
+const mongodb = require('mongodb');
+
+const router = express.Router();
+
+//Get Posts
+router.get('/', (req,res) => {
+   const posts = await loadPostsCollection();
+   res.send(await posts.find({}).toArray());
+}
+
+//Add Post
+router.post('/', async (req,res) => {
+   const posts = await loadPostsCollection();
+   await posts.insertOne({
+     text: req.body.text,
+     createdAt: new Date()   
+   });
+   res.status(201).send();
+})
+
+di postman -> set url /, tambahkan di Body inputan berformat json dgn variable text.
+
+//Delete Post
+router.delete('/:id', async (req,res) => {
+   const posts = await loadPostsCollection();
+   await posts.deleteOne({ _id: new mongodb.ObjectID(req.params.id) });
+   res.status(200).send();
+});
+
+async function loadPostsCollection() {
+  const client = await mongodb.MongoClient.connect(
+                       'mongodb+srv://tennynashari:Teten141!@cluster0.jogb0wd.mongodb.net/?retryWrites=true&w=majority',
+                        { useNewUrlParser: true });
+  return client.db('vue_express').collection('posts');
+}
+
+module.exports = router;
+
+kemudian ke url -> localhost:5000/api/posts
+
+Di Folder project vue js -> di folder src -> buat file PostService.js :
+import axios from axios;
+const url = 'http://localhost:5000/api/posts';
+class PostService {
+   static getPosts() {
+      return new Promise(async (resolve, reject) => {
+         try {
+            const res = await axios.get(url);
+            const data = res.data;
+            resolve(
+               data.map(post => ({
+               ...post,
+               createdAt: new Date(post.createdAt)
+               }))
+            );
+         } catch(err) {
+             reject(err);
+         } 
+      }
+   }
+   static insertPost(text){
+      return axios.post(url, {
+         text
+      });
+   }
+   static deletePost(id){
+      return axios.delete('${url}${id}');
+   }
+}
+export default PostService;
+
+di file .vue :
+import PostService from '../PostService';
+data(){
+  return {
+    posts: [],
+    error: '',
+    text: ''
+  }
+},
+async created() {
+   try {
+     this.posts = await PostService.getPosts();
+   } catch(err){
+     this.error = err.message;
+   }
+},
+methods: {
+   async createPost() {
+      await PostService.insertPost(this.text);
+      this.posts = await PostService.getPosts();
+   },
+   async deletePost(id) {
+      await PostService.deletePost(id);
+      this.posts = await PostService.getPosts();
+   }
+}
+template :
+<div class="post" v-for="(post,index) in posts" v-bind:item="post" v-bind:index="index" v-bind:key="post._id" v-on:dblclick="deletePost(post._id)">
+   {{ '${post.createdAt.getDate()}/${post.createdAt.getMonth()}/     ${post.createdAt.getFullYear()}' }}
+   <p class="text">{{ post.text }}</p>
+</div>
+
+mongodb :
+login via google tenny@mediawave.co.id -> https://www.mongodb.com/ -> create cluster -> create database -> create collection
+
+
+
+

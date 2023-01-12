@@ -67,6 +67,12 @@ developer.twitter.com
 https://developer.twitter.com/en/docs/authentication/oauth-1-0a/api-key-and-secret
 https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-tweets
 
+API KEY : YtSAlvmJ3hwwGmC5Em1FMLqme
+API Key Secret : JxtHtgfbMX19eLpDE3rkBz8RQccaNT2c7uDYheSLkB2S23SIQK
+ACCESS TOKEN : 1139552981924208640-2owdUVzKjkDkEwi6TNuhr3jXx3oGzE
+ACCESS TOKEN SECRET : 4lFmDwSIfacMByCTPXRmSv4KoC5GAMNvDiS65y3NOPNW9
+Bearer Token : AAAAAAAAAAAAAAAAAAAAAKWZlAEAAAAA2etrzrCBGgAszwfEP9WYl80e1ko%3DeejfJQpBcwR96EYUB67q2vcaGJsff5K0zzamkNRSpEKRoCWRCs
+
 
 
 

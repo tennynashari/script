@@ -1,4 +1,4 @@
-vs code extension : Highlight Matching Tag, auto close tag
+vs code extension : Highlight Matching Tag, auto close tag, vue js snippet, Bracket Palr, prettier
 
 Restaurant Project 
 
@@ -120,8 +120,8 @@ login.vue :
 <template>
   <h1>Login</h1>
   <div class="login">
-     <input type="text" v-model="email" placeholder="Enter Email />
-     <input type="password" v-model="password" placeholder="Enter Password />
+     <input type="text" v-model="email" placeholder="Enter Email" />
+     <input type="password" v-model="password" placeholder="Enter Password" />
      <button v-on:click="login">Login</button>
      <p><router-link to="/sign-up">Sign Up</router-link> </p>
   </div>
@@ -330,6 +330,4 @@ const router = createRouter({
    routes,
 })
 export default router;
-
-
 
