@@ -1,4 +1,5 @@
 Set PHP Server Virtual Host 
+Set Environtment Path -> di satrt menu seacrh environtment -> lalu klik environment variables -> lalu ke bagian system variable->path masukkan path xampp->php
 
 /etc/apache2/sites-available
 Etc/httpd/conf/httpd.conf 
