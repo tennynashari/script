@@ -370,3 +370,22 @@ Buat directory /templates utk file2 html
 {% extends "  .html" %}
 {% block content %}
 {% endblock %}
+
+pip install django-crispy-forms
+INSTALLED_APPS = (
+    ...
+    'crispy_forms',
+)
+
+pip install django-cors-headers
+INSTALLED_APPS = [
+    # ...,
+    "corsheaders",
+    # ...,
+]
+MIDDLEWARE = [
+    # ...,
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    # ...,
+]
