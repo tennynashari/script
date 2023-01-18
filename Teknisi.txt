@@ -1,0 +1,4 @@
+Printer Epson L405
+Test Print -> tekan tombol i yg lama
+Aktifkan wifi -> tekan tombol wifi+tombol i
+Direct Wifi -> cari IP Gateway -> buka web dgn ip tsb -> set network wifi
