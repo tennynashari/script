@@ -331,3 +331,20 @@ const router = createRouter({
 })
 export default router;
 
+vue js dgn csrf_token phyton django
+npm i js-cookie
+import Cookies from 'js-cookie'
+
+const csrftoken = Cookies.get('csrftoken') // Cookies from Django Domain
+
+    const loginRequest = async () => {
+        await Axios({
+            method: "post",
+            url: `/api/api-auth/login/`,
+            headers: { 'X-CSRFToken': csrftoken },
+            data: {}
+        }).then((res) => {
+            console.log(res.data);
+        })
+    }
+
