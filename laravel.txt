@@ -1,4 +1,5 @@
 Composer create-project laravel/laravel xxx 
+php artisan --version
 
 composer create-project laravel/laravel xxx
 php artisan serve
