@@ -54,3 +54,10 @@ Copy C:\xampp\mysql\backup and C:\xampp\mysql\data into C:\xampp\mysql\FIX_BACKU
 Paste the contents of C:\xampp\mysql\backup into C:\xampp\mysql\data overwriting all the files.
 
 Finally copy the ibdata1 file from C:\xampp\mysql\FIX_BACKUP\data into C:\xampp\mysql\data overwriting the file.
+
+Tshoot cannot access phpmyadmin after change root password
+Edit your phpmyadmin config.inc.php file :
+xampp\phpmyadmin3.4.5\config.inc.php :
+$cfg['Servers'][$i]['user'] = 'root';
+$cfg['Servers'][$i]['password'] = 'yourpassword';
+$cfg['Servers'][$i]['AllowNoPassword'] = false;
