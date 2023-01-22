@@ -1,7 +1,6 @@
 Composer create-project laravel/laravel xxx 
 php artisan --version
 
-composer create-project laravel/laravel xxx
 php artisan serve
 Extension vis code : laravel snippers, laravel blade 
 
@@ -12,6 +11,10 @@ Route -> routes
 view -> resources 
 
 Php artisan make:model -m --seed, make:controller, make:migration, make migrate, php artisan db:seed --class=ProductSeeder 
+php artisan make:controller UserController --resource --model=User
+Route::resource('users', UserController::class);
+
+return redirect()->route('user.index')->with('success','User created successfully.');
 
 Model diimport di controller, use model, konek ke database yg dicreate lewat make:migration berdasarkan nama, di model primary key dan tabel bisa diset. 
 
@@ -27,6 +30,7 @@ Model::insert([
   'name' => tolowercase(str_replace(' ', '-',  $request->name))
 ])
 $model = model::latest()->get()
+$model = model::latest()->paginate(5);
 $model = model::find($id):
 Model::findorfail($id)->update{[
    'name' => $request->name
