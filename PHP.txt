@@ -356,3 +356,20 @@ PHP MYSQL DELETE (Ecogreen)
     }
     
 ?>
+
+SCRAPING DENGAN GOUTTE
+require 'vendor/autoload.php';
+
+use Goutte\Client;
+
+$client = new Client();
+$url = "https://www.bbc.com/news/topics/cgdzpg5yvdvt/stock-markets";
+$crawler = $client->request('GET', $url);
+
+$news = $crawler->filter("<first headline's selector>")->text();
+$news2 = $crawler->filter("<second headline's selector>")->text();
+$news3 = $crawler->filter("<third headline's selector>")->text();
+
+echo($news."\n");
+echo($news2."\n");
+echo($news3."\n");

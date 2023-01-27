@@ -1,5 +1,5 @@
 HTML
-1. Div, span, strong, small, br, hr, section, header, footer
+1. Div, span, strong, small, br, hr, section, header, footer, <sup>2</sup>, <sub>
 2. Table colspan, rowspan
 3. Form, label
      Input type=text/email/password/submit/file/hidden/checkbox checked id beda/radio id sama/checkbox role="switch"/range min max/, select option value selected, 
