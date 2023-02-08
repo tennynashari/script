@@ -61,3 +61,10 @@ xampp\phpmyadmin3.4.5\config.inc.php :
 $cfg['Servers'][$i]['user'] = 'root';
 $cfg['Servers'][$i]['password'] = 'yourpassword';
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
+
+another tshoot kl phpmyadmin error
+# The MySQL server
+default-character-set=utf8mb4
+[mysqld]
+skip-grant-tables   <<<--- Add this line
+port=3306
