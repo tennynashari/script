@@ -292,3 +292,357 @@ if ($response->isSuccessfull()) {
 
 
 }
+
+LARAVEL CURL POST
+// Make Post Fields Array
+$data = [
+    'name' => 'techsolutionstuff',
+    'email' => 'test@gmail.com',
+];
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => "https://example.com",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30000,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "POST",
+    CURLOPT_POSTFIELDS => json_encode($data),
+    CURLOPT_HTTPHEADER => array(
+    	// Set here requred headers
+        "accept: */*",
+        "accept-language: en-US,en;q=0.8",
+        "content-type: application/json",
+    ),
+));
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+    echo "cURL Error #:" . $err;
+} else {
+    print_r(json_decode($response));
+}
+
+LARAVEL EMAIL
+config file .env :
+MAIL_DRIVER=smtp
+MAIL_HOST=mail.domainanda.com
+MAIL_PORT=465
+MAIL_USERNAME=emailanda@domainanda.com
+MAIL_PASSWORD=passwordwebmailanda
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=emailanda@domainanda.com
+MAIL_FROM_NAME=”${APP_NAME}”
+
+php artisan make:mail MyTestMail
+
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+
+class MyTestMail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $details;
+  
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
+    public function __construct($details)
+    {
+        $this->details = $details;
+    }
+  
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function envelope()
+    {
+        //return $this->subject('Mail from websitepercobaan.com')->view('email.testmail');
+        return new Envelope(
+            from: new Address('no-reply@mediawave.co.id', 'no-reply'),
+            subject: 'Test Mail',
+        );
+    }
+    public function content()
+    {
+        return new Content(
+            view: 'email.testmail',
+        );
+    }
+}
+
+testmail.blade.php :
+<!DOCTYPE html>
+<html>
+<head>
+    <title>websitepercobaan.com</title>
+</head>
+<body>
+    <h1>{{ $details['title'] }}</h1>
+    <p>{{ $details['body'] }}</p>
+   
+    <p>Thank you</p>
+</body>
+</html>
+
+php artisan make:controller MailController
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Mail\MyTestMail;
+use Illuminate\Support\Facades\Mail;
+
+class MailController extends Controller
+{
+    
+    public function index(){
+
+	$details = [
+    'title' => 'Mail from websitepercobaan.com',
+    'body' => 'This is for testing email using smtp'
+    ];
+   
+    Mail::to('emailpenerima@gmail.com')->send(new \App\Mail\MyTestMail($details));
+   
+    dd("Email sudah terkirim.");
+
+	}
+}
+
+Route::get('kirim-email','App\Http\Controllers\MailController@index');
+
+Laravel Paypal
+composer require paypal/rest-api-sdk-php
+buat file config/paypal.php : 
+<?php 
+return [ 
+    'client_id' => 'XXXXXX',
+	'secret' => 'XXXXXX',
+    'settings' => array(
+        'mode' => 'sandbox',
+        'http.ConnectionTimeOut' => 1000,
+        'log.LogEnabled' => true,
+        'log.FileName' => storage_path() . '/logs/paypal.log',
+        'log.LogLevel' => 'FINE'
+    ),
+];
+
+route :
+Route::get('paywithpaypal', array('as' => 'paywithpaypal','uses' => 'PaypalController@payWithPaypal',));
+Route::post('paypal', array('as' => 'paypal','uses' => 'PaypalController@postPaymentWithpaypal',));
+Route::get('paypal', array('as' => 'status','uses' => 'PaypalController@getPaymentStatus',));
+
+PaypalController :
+use App\Http\Requests;
+use Illuminate\Http\Request;
+use Validator;
+use URL;
+use Session;
+use Redirect;
+use Input;
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Api\Amount;
+use PayPal\Api\Details;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\ExecutePayment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\Transaction;
+
+class PaypalController extends Controller
+{
+    private $_api_context;
+    
+    public function __construct()
+    {
+            
+        $paypal_configuration = \Config::get('paypal');
+        $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_configuration['client_id'], $paypal_configuration['secret']));
+        $this->_api_context->setConfig($paypal_configuration['settings']);
+    }
+
+    public function payWithPaypal()
+    {
+        return view('paywithpaypal');
+    }
+
+    public function postPaymentWithpaypal(Request $request)
+    {
+        $payer = new Payer();
+        $payer->setPaymentMethod('paypal');
+
+    	$item_1 = new Item();
+
+        $item_1->setName('Product 1')
+            ->setCurrency('USD')
+            ->setQuantity(1)
+            ->setPrice($request->get('amount'));
+
+        $item_list = new ItemList();
+        $item_list->setItems(array($item_1));
+
+        $amount = new Amount();
+        $amount->setCurrency('USD')
+            ->setTotal($request->get('amount'));
+
+        $transaction = new Transaction();
+        $transaction->setAmount($amount)
+            ->setItemList($item_list)
+            ->setDescription('Enter Your transaction description');
+
+        $redirect_urls = new RedirectUrls();
+        $redirect_urls->setReturnUrl(URL::route('status'))
+            ->setCancelUrl(URL::route('status'));
+
+        $payment = new Payment();
+        $payment->setIntent('Sale')
+            ->setPayer($payer)
+            ->setRedirectUrls($redirect_urls)
+            ->setTransactions(array($transaction));            
+        try {
+            $payment->create($this->_api_context);
+        } catch (\PayPal\Exception\PPConnectionException $ex) {
+            if (\Config::get('app.debug')) {
+                \Session::put('error','Connection timeout');
+                return Redirect::route('paywithpaypal');                
+            } else {
+                \Session::put('error','Some error occur, sorry for inconvenient');
+                return Redirect::route('paywithpaypal');                
+            }
+        }
+
+        foreach($payment->getLinks() as $link) {
+            if($link->getRel() == 'approval_url') {
+                $redirect_url = $link->getHref();
+                break;
+            }
+        }
+        
+        Session::put('paypal_payment_id', $payment->getId());
+
+        if(isset($redirect_url)) {            
+            return Redirect::away($redirect_url);
+        }
+
+        \Session::put('error','Unknown error occurred');
+    	return Redirect::route('paywithpaypal');
+    }
+
+    public function getPaymentStatus(Request $request)
+    {        
+        $payment_id = Session::get('paypal_payment_id');
+
+        Session::forget('paypal_payment_id');
+        if (empty($request->input('PayerID')) || empty($request->input('token'))) {
+            \Session::put('error','Payment failed');
+            return Redirect::route('paywithpaypal');
+        }
+        $payment = Payment::get($payment_id, $this->_api_context);        
+        $execution = new PaymentExecution();
+        $execution->setPayerId($request->input('PayerID'));        
+        $result = $payment->execute($execution, $this->_api_context);
+        
+        if ($result->getState() == 'approved') {         
+            \Session::put('success','Payment success !!');
+            return Redirect::route('paywithpaypal');
+        }
+
+        \Session::put('error','Payment failed !!');
+		return Redirect::route('paywithpaypal');
+    }
+}
+
+Paypal Blade :
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>How to integrate paypal payment in Laravel - Techsolutionstuff</title>
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+    <div class="row">    	
+        <div class="col-md-8 col-md-offset-2">        	
+        	<h3 class="text-center" style="margin-top: 90px;">How to integrate paypal payment in Laravel - Techsolutionstuff</h3>
+            <div class="panel panel-default" style="margin-top: 60px;">
+
+                @if ($message = Session::get('success'))
+                <div class="custom-alerts alert alert-success fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                    {!! $message !!}
+                </div>
+                <?php Session::forget('success');?>
+                @endif
+
+                @if ($message = Session::get('error'))
+                <div class="custom-alerts alert alert-danger fade in">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                    {!! $message !!}
+                </div>
+                <?php Session::forget('error');?>
+                @endif
+                <div class="panel-heading"><b>Paywith Paypal</b></div>
+                <div class="panel-body">
+                    <form class="form-horizontal" method="POST" id="payment-form" role="form" action="{!! URL::route('paypal') !!}" >
+                        {{ csrf_field() }}
+
+                        <div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
+                            <label for="amount" class="col-md-4 control-label">Enter Amount</label>
+
+                            <div class="col-md-6">
+                                <input id="amount" type="text" class="form-control" name="amount" value="{{ old('amount') }}" autofocus>
+
+                                @if ($errors->has('amount'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('amount') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Paywith Paypal
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+

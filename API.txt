@@ -85,6 +85,12 @@ curl -i -X POST `
   -d '{ \"messaging_product\": \"whatsapp\", \"to\": \"6281221099184\", \"type\": \"template\", \"template\": { \"name\": \"hello_world\", \"language\": { \"code\": \"en_US\" } } }'
 https://developers.facebook.com/apps/3478276285736807/whatsapp-business/wa-dev-console/
 
+PAYPAL
+https://developer.paypal.com/dashboard/ -> Create App -> get sandbbox account, client ID and Secret ID
+sandbox account -> sb-vqhwv25025176@business.example.com
+password sandbox account -> 8j6>qCT<
+Client ID -> AeTQ1iRE_M26UztcO4cfEc8lUXlLQ82DqC87tjYABQk9PXJ_O8V0F2nyyZYbOqmEKdg-1qVEuyv9JLL_
+Secret ID -> EAoKzNEw0K9GRgn4a5D0z_dCzxWEG76zrsZPq2hu4cUuJ0YE8uW1Bdfd8fpqcLmDgmZllJuhc6pf-dOv
 
 
 
