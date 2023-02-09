@@ -1,3 +1,7 @@
+SET SMTP IMAP GMail -> https://www.niagahoster.co.id/blog/cara-setting-smtp-gmail-gratis/
+set imap : gmail -> setting -> Forwarding and POP/IMAP -> klik Enable IMAP
+set smtp : manage google account -> security -> Less secure apps ON. OPSI Lain di sini ada : 2 way authentication, akun lain yg connect ke google
+
 Instagram API :
 developers.facebook.com
 Api : IGQVJXb25TYkI1aUxYLURVaWVjRkVWU2lhVXN1QjhxY2tlcGdkY3NIdzd2S2VPS0VvVWhJcktHTVMwYnhhLW40Q0pIbEdLQXZA1MVlvNXk0RDF2bjY3Mld4emNVcjRhVzJhaWxKcWZAHa2pFVk1naHlnSgZDZD
@@ -72,6 +76,15 @@ API Key Secret : JxtHtgfbMX19eLpDE3rkBz8RQccaNT2c7uDYheSLkB2S23SIQK
 ACCESS TOKEN : 1139552981924208640-2owdUVzKjkDkEwi6TNuhr3jXx3oGzE
 ACCESS TOKEN SECRET : 4lFmDwSIfacMByCTPXRmSv4KoC5GAMNvDiS65y3NOPNW9
 Bearer Token : AAAAAAAAAAAAAAAAAAAAAKWZlAEAAAAA2etrzrCBGgAszwfEP9WYl80e1ko%3DeejfJQpBcwR96EYUB67q2vcaGJsff5K0zzamkNRSpEKRoCWRCs
+
+WHATSAPP
+curl -i -X POST `
+  https://graph.facebook.com/v15.0/109430288732490/messages `
+  -H 'Authorization: Bearer EAAxbeU5xJ2cBANEuIlxpQhyZBhZBWPeqNwGChefZAZCejCAuIiTZB8DvKh9Nyx66O5RZCFrGfYZBWGlq7AQ13NZBydZA9jnZBIQRbZCZCy6aycAUt8D6h7AyeNpRenmH7jYPMHd5WsIzPifojpCbais66CVKxD1vAIJoZCQVaaayl2MengaO5ghelYYZBTM089PDCFkQVPUCM08TQokwjNBvOqeTHoFH5x2essokEZD' `
+  -H 'Content-Type: application/json' `
+  -d '{ \"messaging_product\": \"whatsapp\", \"to\": \"6281221099184\", \"type\": \"template\", \"template\": { \"name\": \"hello_world\", \"language\": { \"code\": \"en_US\" } } }'
+https://developers.facebook.com/apps/3478276285736807/whatsapp-business/wa-dev-console/
+
 
 
 
