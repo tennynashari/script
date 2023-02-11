@@ -87,11 +87,101 @@ https://developers.facebook.com/apps/3478276285736807/whatsapp-business/wa-dev-c
 
 PAYPAL
 https://developer.paypal.com/dashboard/ -> Create App -> get sandbbox account, client ID and Secret ID
-sandbox account -> sb-vqhwv25025176@business.example.com
+sandbox account -> sb-pwbcn25026017@personal.example.com
 password sandbox account -> 8j6>qCT<
+account sandbox id -> 6BRTPGSMR4WRY
+password -> 4N9o?eYR
+account id -> MMN7EEH472T78
+sandbox account -> sb-zespn25025177@personal.example.com
 Client ID -> AeTQ1iRE_M26UztcO4cfEc8lUXlLQ82DqC87tjYABQk9PXJ_O8V0F2nyyZYbOqmEKdg-1qVEuyv9JLL_
 Secret ID -> EAoKzNEw0K9GRgn4a5D0z_dCzxWEG76zrsZPq2hu4cUuJ0YE8uW1Bdfd8fpqcLmDgmZllJuhc6pf-dOv
 
+Get Paypal Access Token
+token : A21AAIC4dkJs2iBuR4lc1mq0QX92Ft14vI4Wo8AFebvD4eBqFW-s9LlQ-Wk1KYIWal55SHU_IPhTYZiJRJPfJUSyLkcIzrdFQ
+App id : APP-80W284485P519543T
+nonce : 2023-02-10T11:57:15ZdsGTEQxh6sYmRLccmKhOAXyaHaakKuRjBG0OOvI5u6Q
+curl -v -X POST "https://api-m.sandbox.paypal.com/v1/oauth2/token"    -u "<CLIENT_ID>:<CLIENT_SECRET>"    -H "Content-Type: application/x-www-form-urlencoded"  -d "grant_type=client_credentials"
+di postman : 
+Set the verb to POST.
+Enter https://api-m.sandbox.paypal.com/v1/oauth2/token as the request URL.
+Select the Authorization tab.
+From the TYPE list, select Basic Auth.
+In the Username field, enter your client ID.
+In the Password field, enter your secret.
+Select the Body tab.
+Select the x-www-form-urlencoded option.
+In the KEY field, enter grant_type.
+In the VALUE field, enter client_credentials.
+Select Send.
 
+GET USER INFO PAYPAL
+curl -v -X GET https://api-m.sandbox.paypal.com/v1/identity/openidconnect/userinfo?schema=openid \
+-H 'Authorization: Bearer <Access-Token>' \
+-H 'Content-Type: application/x-www-form-urlencoded'  
+
+Create Order Paypal
+curl -v -X POST https://api-m.sandbox.paypal.com/v2/checkout/orders \
+-H 'Content-Type: application/json' \
+-H 'PayPal-Request-Id: 7b92603e-77ed-4896-8e78-5dea2050476a' \
+-H 'Authorization: Bearer 6V7rbVwmlM1gFZKW_8QtzWXqpcwQ6T5vhEGYNJDAAdn3paCgRpdeMdVYmWzgbKSsECednupJ3Zx5Xd-g' \
+-d '{
+  "intent": "CAPTURE",
+  "purchase_units": [
+    {
+      "reference_id": "d9f80740-38f0-11e8-b467-0ed5f89f718b",
+      "amount": {
+        "currency_code": "USD",
+        "value": "100.00"
+      }
+    }
+  ],
+  "payment_source": {
+    "paypal": {
+      "experience_context": {
+        "payment_method_preference": "IMMEDIATE_PAYMENT_REQUIRED",
+        "payment_method_selected": "PAYPAL",
+        "brand_name": "EXAMPLE INC",
+        "locale": "en-US",
+        "landing_page": "LOGIN",
+        "shipping_preference": "SET_PROVIDED_ADDRESS",
+        "user_action": "PAY_NOW",
+        "return_url": "https://example.com/returnUrl",
+        "cancel_url": "https://example.com/cancelUrl"
+      }
+    }
+  }
+}
+Order Id : 5D568337H46767236
+
+Confirm Order Paypal
+curl -v -X POST https://api-m.sandbox.paypal.com/v2/checkout/orders/ORDERID/confirm-payment-source \
+-H 'Authorization: Bearer access_token6V7rbVwmlM1gFZKW_8QtzWXqpcwQ6T5vhEGYNJDAAdn3paCgRpdeMdVYmWzgbKSsECednupJ3Zx5Xd-g' \
+-d '{
+  "payment_source": {
+    "paypal": {
+      "name": {
+        "given_name": "John",
+        "surname": "Doe"
+      },
+      "email_address": "customer@example.com",
+      "experience_context": {
+        "payment_method_preference": "IMMEDIATE_PAYMENT_REQUIRED",
+        "payment_method_selected": "PAYPAL",
+        "brand_name": "EXAMPLE INC",
+        "locale": "en-US",
+        "landing_page": "LOGIN",
+        "shipping_preference": "SET_PROVIDED_ADDRESS",
+        "user_action": "PAY_NOW",
+        "return_url": "https://example.com/returnUrl",
+        "cancel_url": "https://example.com/cancelUrl"
+      }
+    }
+  }
+}' 
+
+Payment Paypal
+curl -v -X POST https://api-m.sandbox.paypal.com/v2/checkout/orders/ORDERID/authorize \
+-H 'PayPal-Request-Id: 7b92603e-77ed-4896-8e78-5dea2050476a' \
+-H 'Authorization: Bearer access_token6V7rbVwmlM1gFZKW_8QtzWXqpcwQ6T5vhEGYNJDAAdn3paCgRpdeMdVYmWzgbKSsECednupJ3Zx5Xd-g'  
 
 
